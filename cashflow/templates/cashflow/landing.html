@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Petty Cash System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #b7e4c7, #74c69d);
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+            display: inline-block;
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #1b4332;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        p {
+            color: #2d6a4f;
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 12px 25px;
+            text-decoration: none;
+            color: white;
+            background: #2d6a4f;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #1b4332;
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+        }
+
+        footer {
+            margin-top: 30px;
+            color: #2d6a4f;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            p { font-size: 0.9rem; }
+            .btn { padding: 10px 20px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚚 Welcome to Mars Logistics Petty Cash System</h1>
+        <p>Please choose your role to proceed</p>
+
+        <!-- Role selection buttons -->
+        <a href="{% url 'login' %}?role=admin" class="btn">Administrator</a>
+        <a href="{% url 'login' %}?role=user" class="btn">User</a>
+    </div>
+
+    <footer>
+        &copy; {{ year }} Mars Logistics — WE MAKE YOU MOVE💼
+    </footer>
+</body>
+</html>

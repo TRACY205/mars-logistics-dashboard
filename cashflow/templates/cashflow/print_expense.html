@@ -1,0 +1,219 @@
+{% load humanize %}
+{% load number_to_words %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Petty Cash Voucher</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      margin: 0;
+      padding: 20px;
+    }
+    .voucher {
+      border: 2px solid #333; 
+      padding: 20px;
+      width: 700px;
+      box-sizing: border-box;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+    .title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .company-line {
+      font-size: 15px;
+    }
+    .row {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    .ac-wrapper {
+      display: flex;
+      border: 2px solid #333; 
+      border-radius: 12px;
+      width: 100%;
+      overflow: hidden;
+    }
+    /* Left side */
+    .ac-box {
+      width: 70%;
+      padding: 5px;
+      box-sizing: border-box;
+      min-height: 240px;
+      border-right: 1px solid #333; 
+      position: relative;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+    .ac-title {
+      font-weight: bold;
+      border-bottom: 1px solid #333; 
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+    .receipt-line {
+      margin-top: 35px; /* moved down */
+      font-weight: normal;
+    }
+    .shs-inline {
+      margin-top: 70px;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .total-inside {
+      position: absolute;
+      bottom: 10px;
+      right: 12px;
+      font-weight: bold;
+    }
+    /* Right side Shs + Cts */
+    .amount-box {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+    }
+    .amount-box table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      height: 100%;
+      table-layout: fixed; /* ensures large numbers wrap nicely */
+      word-wrap: break-word;
+    }
+    .amount-box th {
+      border: 1px solid #333; 
+      font-size: 15px;
+      padding: 4px;
+      height: 30px;
+    }
+    .amount-box td:first-child, .amount-box th:first-child {
+      width: 20%;
+    }
+    .amount-box td:last-child, .amount-box th:last-child {
+      width: 20%;
+    }
+    .amount-box td {
+      border-left: 1px solid #333;  
+      border-right: 1px solid #333;
+      height: 50px;
+      overflow-wrap: break-word; /* wrap large numbers */
+    }
+    .amount-box tfoot td {
+      border-top: 2px solid #333; 
+      border-left: 1px solid #333;
+      border-right: 1px solid #333;
+      height: 40px;
+      font-weight: bold;
+      overflow-wrap: break-word;
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+    }
+    .footer-left div, .footer-right div {
+      margin-bottom: 30px;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    .buttons button {
+      padding: 8px 16px;
+      margin-right: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background: #f2f2f2;
+    }
+    @media print {
+      .buttons { display: none; }
+      @page { size: A6 portrait; margin: 10mm; }
+      body { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="voucher">
+    <!-- Header -->
+    <div class="header">
+      <div>
+        <div class="title">Petty Cash Voucher No. {{ expense.voucher_no }}</div>
+        <div class="company-line"><b>Name of the Company:</b> Mars Logistics Ltd.</div>
+      </div>
+      <div>Date: {{ expense.date|date:"d/m/Y" }}</div>
+    </div>
+
+    <!-- Body -->
+    <div class="row">
+      <div class="ac-wrapper">
+        <!-- Left A/C -->
+        <div class="ac-box">
+          <div class="ac-title">A/C: {{ expense.charged_to }}</div>
+          {{ expense.description }}
+          <div class="receipt-line">Transaction Charges: {{ expense.receipt_no }}</div>
+
+          <div class="shs-inline">
+            Shs. {{ total_outgoing|number_to_words }}
+          </div>
+          <div class="total-inside">TOTAL:</div>
+        </div>
+
+        <!-- Right Shs / Cts -->
+        <div class="amount-box">
+          <table>
+            <thead>
+              <tr>
+                <th>Shs.</th>
+                <th>Cts.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ expense.amount_withdrawn|floatformat:0|intcomma }}</td>
+                <td>{{ expense.amount_withdrawn|floatformat:2|stringformat:"s"|slice:"-2:" }}</td>
+              </tr>
+              <tr>
+                <td>{{ expense.withdrawal_charges|floatformat:0|intcomma }}</td>
+                <td>{{ expense.withdrawal_charges|floatformat:2|stringformat:"s"|slice:"-2:" }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>{{ total_outgoing|floatformat:0|intcomma }}</td>
+                <td>{{ total_outgoing|floatformat:2|stringformat:"s"|slice:"-2:" }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-left">
+        <div>Checked by: __________________</div>
+        <div>Authorised by: _______________</div>
+      </div>
+      <div class="footer-right">
+        <div>A/C CODE: </div>
+        <div>SIGNATURE OF RECIPIENT: __________________</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="buttons">
+    <button onclick="window.print()">🖨️ Print</button>
+    <button onclick="window.location.href='/dashboard/'">⬅️ Back to Dashboard</button>
+  </div>
+</body>
+</html>

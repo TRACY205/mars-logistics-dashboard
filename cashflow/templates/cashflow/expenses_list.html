@@ -1,0 +1,62 @@
+{% extends "cashflow/base.html" %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-2xl font-bold text-center mb-6">
+        {{ status }} Expenses
+    </h1>
+
+    {% if expenses %}
+        <table class="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
+            <thead class="bg-green-600 text-white">
+                <tr>
+                    <th class="py-2 px-4 border">Date</th>
+                    <th class="py-2 px-4 border">Voucher No</th>
+                    <th class="py-2 px-4 border">Account</th>
+                    <th class="py-2 px-4 border">Details</th>
+                    <th class="py-2 px-4 border">Amount (Shs)</th>
+                    <th class="py-2 px-4 border">Amount (Cts)</th>
+                    <th class="py-2 px-4 border">Total</th>
+                    <th class="py-2 px-4 border">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr class="hover:bg-gray-100">
+                    <td class="py-2 px-4 border">{{ expense.date }}</td>
+                    <td class="py-2 px-4 border">{{ expense.voucher_no }}</td>
+                    <td class="py-2 px-4 border">{{ expense.account }}</td>
+                    <td class="py-2 px-4 border">{{ expense.details }}</td>
+                    <td class="py-2 px-4 border text-right">{{ expense.amount_shs }}</td>
+                    <td class="py-2 px-4 border text-right">{{ expense.amount_cts }}</td>
+                    <td class="py-2 px-4 border text-right font-bold">{{ expense.total }}</td>
+                    <td class="py-2 px-4 border">{{ expense.status|title }}</td>
+                    <td class="py-2 px-4 border">{{ expense.received_by|default:"-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-center text-gray-500">No {{ status }} expenses found.</p>
+    {% endif %}
+
+    <!-- Back to Dashboard -->
+    <div class="mt-6 text-center">
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_staff %}
+                <a href="{% url 'admin_dashboard' %}" class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition transform hover:-translate-y-1">
+                    ⬅ Back to Admin Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'user_dashboard' %}" class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition transform hover:-translate-y-1">
+                    ⬅ Back to User Dashboard
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'landing' %}" class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition transform hover:-translate-y-1">
+                ⬅ Back to Main Dashboard
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

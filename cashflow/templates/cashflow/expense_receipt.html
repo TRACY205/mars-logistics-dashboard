@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .voucher {
+            border: 3px solid black;
+            padding: 15px;
+            width: 750px;
+            margin: auto;
+        }
+        .header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .row span {
+            flex: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 2px solid black;
+            padding: 6px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .totals-row td {
+            font-weight: bold;
+        }
+        .signatures {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .signatures div {
+            text-align: center;
+            width: 30%;
+            font-size: 14px;
+        }
+        .signatures p {
+            margin: 40px 0 0 0;
+        }
+
+        /* Buttons */
+        .buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .buttons button {
+            padding: 8px 20px;
+            margin: 5px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .print-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .back-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        /* Hide buttons in print */
+        @media print {
+            .buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="voucher">
+        <div class="header">Petty Cash Voucher</div>
+
+        <div class="row">
+    <span><b>Petty Cash Voucher No.:</b> {{ receipt.voucher_no }}</span>
+    <span><b>Date:</b> {{ receipt.date }}</span>
+</div>
+
+<div class="row">
+    <span><b>Name of Company:</b> Mars Logistics</span>
+</div>
+
+<div class="row">
+    <span><b>A/C:</b> {{ receipt.account_number }}</span>
+</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:60%">A/C</th>
+                    <th style="width:20%">Shs</th>
+                    <th style="width:20%">Cts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ receipt.account }} - {{ receipt.details }}</td>
+                    <td>{{ receipt.amount_shs }}</td>
+                    <td>{{ receipt.amount_cts }}</td>
+                </tr>
+                <tr class="totals-row">
+                    <td><b>Total</b></td>
+                    <td><b>{{ receipt.amount_shs }}</b></td>
+                    <td><b>{{ receipt.amount_cts }}</b></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div>
+                <p>Checked by:</p>
+                <p>__________________</p>
+                <p>{{ receipt.checked_by }}</p>
+            </div>
+            <div>
+                <p>Authorised by:</p>
+                <p>__________________</p>
+                <p>{{ receipt.authorised_by }}</p>
+            </div>
+            <div>
+                <p>Signature of Recipient:</p>
+                <p>__________________</p>
+                <p>{{ receipt.recipient_signature }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button class="print-btn" onclick="window.print()">Print</button>
+        <button class="back-btn" onclick="window.history.back()">Back</button>
+    </div>
+</body>
+</html>
