@@ -4,31 +4,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Petty Cash Voucher</title>
+  <title>Petty Cash Voucher</title> 
   <style>
     body {
       font-family: Arial, sans-serif;
-      font-size: 15px;
+      font-size: 16px;
       margin: 0;
-      padding: 20px;
+      padding: 10px;
     }
     .voucher {
       border: 2px solid #333; 
-      padding: 20px;
-      width: 700px;
+      padding: 15px;
+      width: 100%;  /* full width for A6 landscape */
+      max-width: 1000px;
       box-sizing: border-box;
     }
     .header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
+      font-size: 18px;
     }
     .title {
-      font-size: 16px;
+      font-size: 20px;
       font-weight: bold;
     }
     .company-line {
-      font-size: 15px;
+      font-size: 16px;
+      margin-top: 5px;
     }
     .row {
       display: flex;
@@ -36,43 +39,50 @@
     }
     .ac-wrapper {
       display: flex;
-      border: 2px solid #333; 
-      border-radius: 12px;
+      border: 2px solid #000000; 
+      border-radius: 8px;
       width: 100%;
       overflow: hidden;
     }
     /* Left side */
     .ac-box {
       width: 70%;
-      padding: 5px;
+      padding: 10px;
       box-sizing: border-box;
-      min-height: 240px;
-      border-right: 1px solid #333; 
+      min-height: 260px;
+      border-right: 1px solid #030303; 
       position: relative;
       word-wrap: break-word;
       overflow-wrap: break-word;
       white-space: normal;
+      font-size: 16px;
     }
     .ac-title {
       font-weight: bold;
-      border-bottom: 1px solid #333; 
-      padding-bottom: 5px;
+      border-bottom: 2px solid #333;
+      width: 100%;         
+      box-sizing: border-box;
+      padding-bottom: 8px;  /* line just below text */
       margin-bottom: 10px;
+      font-size: 18px;
     }
     .receipt-line {
-      margin-top: 35px; /* moved down */
+      margin-top: 60px;
       font-weight: normal;
+      font-size: 16px;
     }
     .shs-inline {
-      margin-top: 70px;
+      margin-top: 60px;
       font-weight: bold;
       text-decoration: underline;
+      font-size: 18px;
     }
     .total-inside {
       position: absolute;
       bottom: 10px;
       right: 12px;
       font-weight: bold;
+      font-size: 16px;
     }
     /* Right side Shs + Cts */
     .amount-box {
@@ -85,50 +95,63 @@
       border-collapse: collapse;
       text-align: center;
       height: 100%;
-      table-layout: fixed; /* ensures large numbers wrap nicely */
+      table-layout: fixed;
       word-wrap: break-word;
+      font-size: 16px;
     }
     .amount-box th {
       border: 1px solid #333; 
-      font-size: 15px;
-      padding: 4px;
-      height: 30px;
+      font-size: 16px;
+      padding: 10px;
+      height: 10px;
     }
     .amount-box td:first-child, .amount-box th:first-child {
-      width: 20%;
+      width: 25%;
     }
     .amount-box td:last-child, .amount-box th:last-child {
-      width: 20%;
+      width: 3%;
     }
     .amount-box td {
       border-left: 1px solid #333;  
       border-right: 1px solid #333;
-      height: 50px;
-      overflow-wrap: break-word; /* wrap large numbers */
+      height: 55px;
+      overflow-wrap: break-word;
+      vertical-align: top;
+      padding-top: 2px;
+      font-size: 16px;
     }
     .amount-box tfoot td {
       border-top: 2px solid #333; 
       border-left: 1px solid #333;
       border-right: 1px solid #333;
-      height: 40px;
+      height: 45px;
       font-weight: bold;
       overflow-wrap: break-word;
+      vertical-align: bottom;
+      padding-bottom: 8px;
+      font-size: 16px;
     }
     .footer {
       display: flex;
       justify-content: space-between;
       margin-top: 50px;
+      font-size: 16px;
     }
     .footer-left div, .footer-right div {
       margin-bottom: 30px;
     }
+    .footer-right div {
+    margin-bottom: 0px; /* reduce or adjust to move it down */
+    margin-top: 50px;    /* optional: adds extra space above */
+}
+
     .buttons {
       margin-top: 20px;
     }
     .buttons button {
-      padding: 8px 16px;
+      padding: 10px 20px;
       margin-right: 10px;
-      font-size: 14px;
+      font-size: 16px;
       cursor: pointer;
       border: 1px solid #333;
       border-radius: 6px;
@@ -136,8 +159,8 @@
     }
     @media print {
       .buttons { display: none; }
-      @page { size: A6 portrait; margin: 10mm; }
-      body { font-size: 12px; }
+      @page { size: A6 landscape; margin: 5mm; }
+      body { font-size: 14px; }
     }
   </style>
 </head>
@@ -159,8 +182,9 @@
         <div class="ac-box">
           <div class="ac-title">A/C: {{ expense.charged_to }}</div>
           {{ expense.description }}
-          <div class="receipt-line">Transaction Charges: {{ expense.receipt_no }}</div>
-
+          <div class="receipt-line">
+            Transaction Charges: 
+          </div>
           <div class="shs-inline">
             Shs. {{ total_outgoing|number_to_words }}
           </div>
@@ -204,7 +228,6 @@
         <div>Authorised by: _______________</div>
       </div>
       <div class="footer-right">
-        <div>A/C CODE: </div>
         <div>SIGNATURE OF RECIPIENT: __________________</div>
       </div>
     </div>
