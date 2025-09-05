@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone 
 
 class Expense(models.Model):
     STATUS_CHOICES = [
@@ -10,7 +11,7 @@ class Expense(models.Model):
     ]
 
     # Excel fields
-    date = models.DateField()
+    date = models.DateField(default=timezone.now)
     received_by = models.CharField(max_length=255, null=True, blank=True)
     charged_to = models.CharField(max_length=255)
     description = models.TextField()

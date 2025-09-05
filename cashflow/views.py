@@ -12,6 +12,11 @@ from reportlab.lib.pagesizes import letter, landscape
 from reportlab.lib.styles import getSampleStyleSheet
 from django.http import HttpResponse
 from datetime import datetime
+from decimal import Decimal, InvalidOperation
+from .forms import ExpenseForm
+from .models import Expense
+from django.shortcuts import render, get_object_or_404, redirect
+
 
 
 # -------------------- Landing Page --------------------
@@ -117,80 +122,59 @@ def user_dashboard(request):
 
 
 # -------------------- Expense Management --------------------
-@login_required
+from decimal import Decimal
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.utils import timezone
+from django.db.models import Sum
+from .models import Expense
+
 def add_expense(request):
+    today = timezone.now().date()
+
+    # Get all expenses uploaded by this user, ordered by date
+    expenses = Expense.objects.filter(uploaded_by=request.user).order_by('date', 'id')
+
+    # Calculate totals
+    total_deposited = expenses.aggregate(total=Sum('amount_deposited'))['total'] or Decimal('0')
+    total_withdrawn = expenses.aggregate(total=Sum('amount_withdrawn'))['total'] or Decimal('0')
+    total_charges = expenses.aggregate(total=Sum('withdrawal_charges'))['total'] or Decimal('0')
+
+    # Current running balance
+    running_balance = total_deposited - total_withdrawn - total_charges
+
     if request.method == "POST":
-        # Get data from the form
-        date_str = request.POST.get("date")  # must match HTML input name
-        charged_to = request.POST.get("charged_to")
-        description = request.POST.get("description")        # separate field
-        receipt_no = request.POST.get("receipt_no")          # separate field
-        amount_deposited = request.POST.get("amount_deposited") or 0
-        amount_withdrawn = request.POST.get("amount_withdrawn") or 0
-        withdrawal_charges = request.POST.get("withdrawal_charges") or 0
-        running_balance = request.POST.get("running_balance") or 0
+        # Convert all inputs to Decimal
+        amount_deposited = Decimal(request.POST.get('amount_deposited') or 0)
+        amount_withdrawn = Decimal(request.POST.get('amount_withdrawn') or 0)
+        withdrawal_charges = Decimal(request.POST.get('withdrawal_charges') or 0)
 
-        # Validate and convert date
-        if not date_str:
-            messages.error(request, "⚠️ Date is required.")
-            return redirect("add_expense")
-        try:
-            date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
-        except ValueError:
-            messages.error(request, "⚠️ Invalid date format. Use YYYY-MM-DD.")
-            return redirect("add_expense")
+        # Update running balance with new expense
+        new_balance = running_balance + amount_deposited - amount_withdrawn - withdrawal_charges
 
-        # Create the expense record and link to current user
+        # Create new expense
         Expense.objects.create(
-            date=date_obj,
-            charged_to=charged_to,
-            description=description,      # store description
-            receipt_no=receipt_no,        # store receipt number
+            uploaded_by=request.user,
+            date=request.POST.get('date') or today,
+            received_by=request.POST.get('received_by'),
+            charged_to=request.POST.get('charged_to'),
+            description=request.POST.get('description'),
+            receipt_no=request.POST.get('receipt_no'),
             amount_deposited=amount_deposited,
             amount_withdrawn=amount_withdrawn,
             withdrawal_charges=withdrawal_charges,
-            running_balance=running_balance,
-            uploaded_by=request.user
+            running_balance=new_balance,
+            status='Pending'  # optional, adjust if needed
         )
 
-        messages.success(request, "✅ Expense added successfully.")
-        return redirect("user_dashboard")
+        messages.success(request, "Expense added successfully!")
+        return redirect('add_expense')  # or wherever you want to go
 
-    return render(request, "cashflow/add_expense.html")
-
-# views.py
-from django.shortcuts import render, redirect
-from .forms import ExpenseForm
-from .models import Expense
-
-def add_expense_user(request):
-    if request.method == "POST":
-        form = ExpenseForm(request.POST)
-        if form.is_valid():
-            expense = form.save(commit=False)
-            expense.uploaded_by = request.user  # must match field name in your model
-            expense.status = "Pending"
-            expense.save()
-            return redirect('user_dashboard')
-    else:
-        form = ExpenseForm()
-    return render(request, 'cashflow/add_expense.html', {'form': form})
-
-
-def add_expense_admin(request):
-    if request.method == "POST":
-        form = ExpenseForm(request.POST)
-        if form.is_valid():
-            expense = form.save(commit=False)
-            expense.status = "Pending"
-            expense.user = request.user
-            expense.save()
-            return redirect("admin_dashboard")  
-    else:
-        form = ExpenseForm()
-
-    return render(request, "cashflow/add_expense.html", {"form": form})
-
+    # Render template with current running balance
+    return render(request, 'cashflow/add_expense.html', {
+        'today': today,
+        'current_balance': running_balance
+    })
 
 
 from django.shortcuts import redirect, get_object_or_404
@@ -297,15 +281,60 @@ def import_expenses(request):
         # ✅ Always return something for GET requests
     return render(request, "cashflow/upload.html")
 
+from django.shortcuts import render
+from .models import Expense
 
-def expenses_list(request, status):
-    expenses = Expense.objects.filter(status=status.capitalize())
-    total_amount = expenses.aggregate(total=Sum("amount_withdrawn"))["total"] or 0
-    return render(request, "cashflow/view_expenses.html", {
-        "expenses": expenses,
-        "status": status.capitalize(),
-        "total_amount": total_amount,
+def expenses_list(request):
+    # Start with all expenses
+    expenses = Expense.objects.all()
+
+    # Filter parameters
+    status = request.GET.get('status')
+    received_by = request.GET.get('received_by')
+    charged_to = request.GET.get('charged_to')
+    description = request.GET.get('description')
+    date = request.GET.get('date')
+    amount_deposited = request.GET.get('amount_deposited')
+    amount_withdrawn = request.GET.get('amount_withdrawn')
+
+    # Apply filters
+    if status:
+        expenses = expenses.filter(status__iexact=status)
+    if received_by:
+        expenses = expenses.filter(received_by__icontains=received_by)
+    if charged_to:
+        expenses = expenses.filter(charged_to__icontains=charged_to)
+    if description:
+        expenses = expenses.filter(description__icontains=description)
+    if date:
+        expenses = expenses.filter(date=date)
+    if amount_deposited:
+        expenses = expenses.filter(amount_deposited=amount_deposited)
+    if amount_withdrawn:
+        expenses = expenses.filter(amount_withdrawn=amount_withdrawn)
+
+    # Totals for the filtered list
+    totals = {
+        'total_deposited': sum(e.amount_deposited for e in expenses),
+        'total_withdrawn': sum(e.amount_withdrawn for e in expenses),
+        'total_charges': sum(e.withdrawal_charges for e in expenses),
+    }
+
+    return render(request, 'cashflow/expenses_list.html', {
+        'expenses': expenses,
+        'totals': totals,
     })
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -355,14 +384,20 @@ def admin_view_expenses(request):
     })
 
 @login_required
+# views.py
+
+
+
+
 
 def edit_expense(request, expense_id):
     expense = get_object_or_404(Expense, id=expense_id)
+
     if request.method == "POST":
         form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
             form.save()
-            return redirect("user_dashboard")  # adjust to your URL
+            return redirect("user_dashboard")
     else:
         form = ExpenseForm(instance=expense)
 
@@ -371,18 +406,6 @@ def edit_expense(request, expense_id):
 
 
 
-from django.shortcuts import get_object_or_404, render
-from .models import Expense
-def print_expense(request, expense_id):
-    expense = get_object_or_404(Expense, id=expense_id)
-
-    total_outgoing = (expense.amount_withdrawn or 0) + (expense.withdrawal_charges or 0)
-
-    context = {
-        'expense': expense,
-        'total_outgoing': total_outgoing,
-    }
-    return render(request, "cashflow/print_expense.html", context)
 
 
 
@@ -414,3 +437,65 @@ class ExpenseChargedToForm(forms.ModelForm):
 
 
 
+
+        from django.shortcuts import render
+from django.utils import timezone
+from .models import Expense
+from django.db.models import Sum
+
+def daily_expense_report(request):
+    today = timezone.localdate()  # gets today's date
+    expenses = Expense.objects.filter(date=today)
+
+    # Calculate totals
+    totals = expenses.aggregate(
+        deposited=Sum('amount_deposited'),
+        withdrawn=Sum('amount_withdrawn'),
+        withdrawal_charges=Sum('withdrawal_charges'),
+        running_balance=Sum('running_balance')
+    )
+
+    context = {
+        'expenses': expenses,
+        'totals': totals,
+        'start_date': today,
+        'end_date': today
+    }
+    return render(request, 'cashflow/daily_expense_report.html', context)
+
+
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Expense
+
+def print_expense(request, expense_id):
+    # Get the expense object
+    expense = get_object_or_404(Expense, id=expense_id)
+
+    # Calculate total outgoing (amount withdrawn + withdrawal charges)
+    total_outgoing = 0
+    if expense.amount_withdrawn:
+        total_outgoing += expense.amount_withdrawn
+    if expense.withdrawal_charges:
+        total_outgoing += expense.withdrawal_charges
+
+    # Pass all required context to the template
+    context = {
+        'expense': expense,
+        'total_outgoing': total_outgoing,
+    }
+
+    return render(request, 'cashflow/print_expense.html', context)
+
+
+from django.shortcuts import render
+from .models import Expense
+
+def print_all_approved(request):
+    # Fetch all expenses where status contains 'approved', case-insensitive
+    approved_expenses = Expense.objects.filter(status__iexact='approved')
+
+    return render(request, 'cashflow/print_all_approved.html', {
+        'expenses': approved_expenses,
+    })

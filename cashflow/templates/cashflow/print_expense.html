@@ -142,7 +142,7 @@
     }
     .footer-right div {
     margin-bottom: 0px; /* reduce or adjust to move it down */
-    margin-top: 50px;    /* optional: adds extra space above */
+    margin-top: 98px;    /* optional: adds extra space above */
 }
 
     .buttons {
@@ -221,17 +221,21 @@
       </div>
     </div>
 
-    <!-- Footer -->
+     
+     <!-- Footer -->
     <div class="footer">
       <div class="footer-left">
+         <div>Prepared by: {{ request.user.username }}</div>
         <div>Checked by: __________________</div>
         <div>Authorised by: _______________</div>
       </div>
       <div class="footer-right">
+        
         <div>SIGNATURE OF RECIPIENT: __________________</div>
       </div>
     </div>
   </div>
+
 
   <!-- Buttons -->
   <div class="buttons">

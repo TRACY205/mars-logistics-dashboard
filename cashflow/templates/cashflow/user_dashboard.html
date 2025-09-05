@@ -35,25 +35,63 @@
         </div>
 
         <!-- Filter Form -->
-        <div class="mb-4">
-            <form method="get" class="flex flex-wrap gap-4 items-end">
-                <div class="flex flex-col">
-                    <label class="text-sm font-medium text-gray-700 mb-1">Status</label>
-                    <select name="status" class="px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-                        <option value="">All</option>
-                        <option value="Approved" {% if status == 'Approved' %}selected{% endif %}>Approved</option>
-                        <option value="Pending" {% if status == 'Pending' %}selected{% endif %}>Pending</option>
-                        <option value="Rejected" {% if status == 'Rejected' %}selected{% endif %}>Rejected</option>
-                    </select>
-                </div>
+        <form method="get" action="{% url 'expenses_list' %}" class="flex flex-wrap gap-4 items-end mb-6">
+            <!-- Status -->
+            <div class="flex flex-col">
+                <label class="text-sm font-medium text-gray-700 mb-1">Status</label>
+                <select name="status" class="px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <option value="">All</option>
+                    <option value="Approved" {% if request.GET.status == 'Approved' %}selected{% endif %}>Approved</option>
+                    <option value="Pending" {% if request.GET.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Rejected" {% if request.GET.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                </select>
+            </div>
 
-                <div class="flex items-end">
-                    <button type="submit" class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 shadow-md">
-                        Filter
-                    </button>
-                </div>
-            </form>
-        </div>
+            <!-- Received By -->
+            <div class="flex flex-col">
+                <label class="text-sm font-medium text-gray-700 mb-1">Received By</label>
+                <input type="text" name="received_by" value="{{ request.GET.received_by|default_if_none:'' }}" class="px-3 py-2 border rounded-lg">
+            </div>
+
+            <!-- Charged To -->
+            <div class="flex flex-col">
+                <label class="text-sm font-medium text-gray-700 mb-1">Charged To</label>
+                <input type="text" name="charged_to" value="{{ request.GET.charged_to|default_if_none:'' }}" class="px-3 py-2 border rounded-lg">
+            </div>
+
+            <!-- Description -->
+            <div class="flex flex-col">
+                <label class="text-sm font-medium text-gray-700 mb-1">Description</label>
+                <input type="text" name="description" value="{{ request.GET.description|default_if_none:'' }}" class="px-3 py-2 border rounded-lg">
+            </div>
+
+            <!-- Date -->
+            <div class="flex flex-col">
+                <label class="text-sm font-medium text-gray-700 mb-1">Date</label>
+                <input type="date" name="date" value="{{ request.GET.date|default_if_none:'' }}" class="px-3 py-2 border rounded-lg">
+            </div>
+
+            <!-- Amount Deposited -->
+            <div class="flex flex-col">
+                <label class="text-sm font-medium text-gray-700 mb-1">Amount Deposited</label>
+                <input type="number" step="0.01" name="amount_deposited" value="{{ request.GET.amount_deposited|default_if_none:'' }}" class="px-3 py-2 border rounded-lg">
+            </div>
+
+            <!-- Amount Withdrawn -->
+            <div class="flex flex-col">
+                <label class="text-sm font-medium text-gray-700 mb-1">Amount Withdrawn</label>
+                <input type="number" step="0.01" name="amount_withdrawn" value="{{ request.GET.amount_withdrawn|default_if_none:'' }}" class="px-3 py-2 border rounded-lg">
+            </div>
+
+            <div class="flex items-end">
+                <button type="submit" class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 shadow-md">
+                    Filter
+                </button>
+            </div>
+        </form>
+
+
+
 
         <!-- Expenses Table -->
         <div class="overflow-x-auto shadow-lg rounded-lg bg-white">
@@ -140,6 +178,9 @@
             </div>
         </div>
     </main>
+    <a href="{% url 'daily_expense_report' %}" target="_blank" 
+   class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Print Daily Report</a>
+
 
     <!-- JS for dropdown -->
     <script>
@@ -159,7 +200,3 @@
 
 </body>
 </html>
-
-
-
-
