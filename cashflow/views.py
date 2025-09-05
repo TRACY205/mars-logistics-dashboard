@@ -355,18 +355,20 @@ def admin_view_expenses(request):
     })
 
 @login_required
-def edit_expense(request, expense_id):
-    expense = get_object_or_404(Expense, id=expense_id, uploaded_by=request.user)
 
+def edit_expense(request, expense_id):
+    expense = get_object_or_404(Expense, id=expense_id)
     if request.method == "POST":
-        form = ExpenseChargedToForm(request.POST, instance=expense)
+        form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
             form.save()
-            return redirect("user_dashboard")  # or wherever you want
+            return redirect("user_dashboard")  # adjust to your URL
     else:
-        form = ExpenseChargedToForm(instance=expense)
+        form = ExpenseForm(instance=expense)
 
     return render(request, "cashflow/edit_expense.html", {"form": form})
+
+
 
 
 from django.shortcuts import get_object_or_404, render
