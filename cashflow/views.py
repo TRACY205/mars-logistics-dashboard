@@ -31,24 +31,32 @@ def register_view(request):
         messages.success(request, "✅ Account created successfully. Please log in.")
         return redirect("login")
     return render(request, "cashflow/register.html", {"form": form})
-
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
+        login_type = request.POST.get("login_type")  # "admin" or "user"
 
         user = authenticate(request, username=username, password=password)
 
         if user:
             login(request, user)
-            if user.is_staff:
+
+            # Check role and intended login
+            if login_type == "admin" and user.is_staff:
                 return redirect("admin_dashboard")
-            else:
+            elif login_type == "user" and not user.is_staff:
                 return redirect("user_dashboard")
+            else:
+                messages.error(request, "❌ Unauthorized login for this section.")
+                logout(request)
+                return redirect("landing")
+
         else:
             messages.error(request, "❌ Invalid username or password")
 
     return render(request, "cashflow/login.html")
+
 
 
 @login_required
@@ -66,6 +74,10 @@ def dashboard(request):
 
 
 def admin_dashboard(request):
+    # Only allow admins
+    if not request.user.is_staff:
+        return redirect('user_dashboard')  # redirect regular users
+
     # Start with all expenses (newest first)
     expenses = Expense.objects.all().order_by("-date")
 
@@ -79,7 +91,7 @@ def admin_dashboard(request):
     if status:
         expenses = expenses.filter(status__iexact=status)  # case-insensitive
 
-    # Calculate totals after filtering (replace None with 0)
+    # Calculate totals after filtering
     totals = expenses.aggregate(
         total_deposited=Sum('amount_deposited'),
         total_withdrawn=Sum('amount_withdrawn'),
@@ -96,18 +108,22 @@ def admin_dashboard(request):
 
     return render(request, 'cashflow/admin_dashboard.html', context)
 
-
 @login_required
+
 def user_dashboard(request):
-    # Only show expenses uploaded by the logged-in user
+    # Only allow regular users
+    if request.user.is_staff:
+        return redirect('admin_dashboard')  # redirect admins
+
+    # Show expenses uploaded by this user
     expenses = Expense.objects.filter(uploaded_by=request.user).order_by("-date")
 
     # Filter by status from dropdown
     status = request.GET.get("status", "all")
     if status and status.lower() != "all":
-        expenses = expenses.filter(status__iexact=status)  # Show only selected status
+        expenses = expenses.filter(status__iexact=status)
 
-    # Totals for the filtered expenses
+    # Totals for filtered expenses
     totals = {
         "total_deposited": expenses.aggregate(total=Sum("amount_deposited"))["total"] or 0,
         "total_withdrawn": expenses.aggregate(total=Sum("amount_withdrawn"))["total"] or 0,
@@ -120,16 +136,14 @@ def user_dashboard(request):
         "status": status,
     })
 
-
-# -------------------- Expense Management --------------------
-from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.utils import timezone
+from decimal import Decimal
 from django.db.models import Sum
 from .models import Expense
 
-def add_expense(request):
+def add_expense(request, user_type="user"):
     today = timezone.now().date()
 
     # Get all expenses uploaded by this user, ordered by date
@@ -140,19 +154,15 @@ def add_expense(request):
     total_withdrawn = expenses.aggregate(total=Sum('amount_withdrawn'))['total'] or Decimal('0')
     total_charges = expenses.aggregate(total=Sum('withdrawal_charges'))['total'] or Decimal('0')
 
-    # Current running balance
     running_balance = total_deposited - total_withdrawn - total_charges
 
     if request.method == "POST":
-        # Convert all inputs to Decimal
         amount_deposited = Decimal(request.POST.get('amount_deposited') or 0)
         amount_withdrawn = Decimal(request.POST.get('amount_withdrawn') or 0)
         withdrawal_charges = Decimal(request.POST.get('withdrawal_charges') or 0)
 
-        # Update running balance with new expense
         new_balance = running_balance + amount_deposited - amount_withdrawn - withdrawal_charges
 
-        # Create new expense
         Expense.objects.create(
             uploaded_by=request.user,
             date=request.POST.get('date') or today,
@@ -164,13 +174,17 @@ def add_expense(request):
             amount_withdrawn=amount_withdrawn,
             withdrawal_charges=withdrawal_charges,
             running_balance=new_balance,
-            status='Pending'  # optional, adjust if needed
+            status='Pending'
         )
 
         messages.success(request, "Expense added successfully!")
-        return redirect('add_expense')  # or wherever you want to go
 
-    # Render template with current running balance
+        # Redirect based on user_type
+        if user_type == "admin":
+            return redirect('add_expense_admin')
+        else:
+            return redirect('add_expense_user')
+
     return render(request, 'cashflow/add_expense.html', {
         'today': today,
         'current_balance': running_balance
@@ -204,6 +218,7 @@ def reject_expense(request, expense_id):
     expense.save()
     messages.success(request, f"Expense rejected by {request.user.username}.")
     return redirect("admin_dashboard")
+
 
 
 # -------------------- Import Expenses --------------------
@@ -427,43 +442,57 @@ def voucher_view(request, voucher_id):
 
 
 
-from django import forms
-from .models import Expense
-
-class ExpenseChargedToForm(forms.ModelForm):
-    class Meta:
-        model = Expense
-        fields = ["charged_to"]  # only this field is editable
-
-
-
-
-        from django.shortcuts import render
-from django.utils import timezone
-from .models import Expense
+from django.shortcuts import render
 from django.db.models import Sum
+from datetime import datetime
+from .models import Expense
 
-def daily_expense_report(request):
-    today = timezone.localdate()  # gets today's date
-    expenses = Expense.objects.filter(date=today)
+def pettycash_summary(request):
+    day = request.GET.get("day")
+    start_date = request.GET.get("start_date")
+    end_date = request.GET.get("end_date")
 
-    # Calculate totals
+    expenses = Expense.objects.all()
+
+    if day:
+        try:
+            day_obj = datetime.strptime(day, "%Y-%m-%d").date()
+            expenses = expenses.filter(date=day_obj)
+            start_date, end_date = day_obj, day_obj
+        except ValueError:
+            pass
+    elif start_date and end_date:
+        try:
+            start_date_obj = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end_date_obj = datetime.strptime(end_date, "%Y-%m-%d").date()
+            expenses = expenses.filter(date__range=[start_date_obj, end_date_obj])
+            start_date, end_date = start_date_obj, end_date_obj
+        except ValueError:
+            pass
+
+    # Totals
     totals = expenses.aggregate(
-        deposited=Sum('amount_deposited'),
-        withdrawn=Sum('amount_withdrawn'),
-        withdrawal_charges=Sum('withdrawal_charges'),
-        running_balance=Sum('running_balance')
+        deposited=Sum("amount_deposited") or 0,
+        withdrawn=Sum("amount_withdrawn") or 0,
+        withdrawal_charges=Sum("withdrawal_charges") or 0,
     )
 
+    # Closing balance = last running balance
+    last_balance = expenses.order_by("-date", "-id").first()
+    closing_balance = last_balance.running_balance if last_balance else 0
+
     context = {
-        'expenses': expenses,
-        'totals': totals,
-        'start_date': today,
-        'end_date': today
+        "day": day,
+        "start_date": start_date,
+        "end_date": end_date,
+        "expenses": expenses,
+        "totals": totals,
+        "closing_balance": closing_balance,
+         "prepared_by": request.user.username if request.user.is_authenticated else "Anonymous",
+          "approved_by": request.user.get_full_name() or request.user.username if (request.user.is_authenticated and request.user.is_staff) else None,
     }
-    return render(request, 'cashflow/daily_expense_report.html', context)
 
-
+    return render(request, "cashflow/pettycash_summary.html", context)
 
 
 from django.shortcuts import render, get_object_or_404

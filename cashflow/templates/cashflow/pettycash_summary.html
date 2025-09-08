@@ -1,0 +1,205 @@
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Petty Cash Summary</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      margin: 20px;
+    }
+
+    /* Outer bold border */
+    .report-container {
+      border: 3px solid black;
+      padding: 15px;
+      margin: 10px auto;
+    }
+
+    .header {
+      text-align: left;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .header h2 {
+      margin: 0;
+      font-size: 16px;
+    }
+    .period {
+      font-size: 13px;
+      font-weight: normal;
+    }
+
+    .balance {
+      text-align: right;
+      margin-top: -35px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 6px;
+      font-size: 12px;
+      text-align: left;
+    }
+    th {
+      text-align: center;
+      background: #f2f2f2;
+    }
+    tfoot td {
+      font-weight: bold;
+      text-align: right;
+      background: #e6e6e6;
+    }
+
+    /* Filters */
+    .controls {
+      margin-bottom: 15px;
+    }
+    .controls form {
+      display: inline-block;
+      background: #f9f9f9;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-right: 10px;
+    }
+    .controls input[type="date"] {
+      padding: 4px 6px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .controls button {
+      background: #4CAF50;
+      border: none;
+      color: white;
+      padding: 6px 14px;
+      margin-left: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .controls button:hover {
+      background: #45a049;
+    }
+
+    @media print {
+      .buttons, .controls { display: none; }
+      @page { size: A4 landscape; margin: 10mm; }
+    }
+
+    .buttons button {
+      background: #2196F3;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      margin-right: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .buttons button:hover {
+      background: #0b7dda;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Filter controls -->
+  <div class="controls">
+    <form method="get">
+      <label>Single Day: <input type="date" name="day" value="{{ day }}"></label>
+      <button type="submit">Filter</button>
+    </form>
+
+    <form method="get">
+      <label>From: <input type="date" name="start_date" value="{{ start_date }}"></label>
+      <label>To: <input type="date" name="end_date" value="{{ end_date }}"></label>
+      <button type="submit">Filter</button>
+    </form>
+  </div>
+
+  <div class="report-container">
+    <!-- Header -->
+    <div class="header">
+      <h2>MARS LOGISTICS LIMITED</h2>
+      <div class="period">
+        For {{ start_date|date:"d/m/Y" }} through {{ end_date|date:"d/m/Y" }}
+      </div>
+    </div>
+
+    <!-- Balance -->
+    <div class="balance">
+       Balance: {{ closing_balance|default:"0"|intcomma }}
+
+    </div>
+
+    <!-- Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Received By</th>
+          <th>Charged To</th>
+          <th>Description</th>
+          <th>Receipt No.</th>
+          <th>Amount Deposited</th>
+          <th>Amount Withdrawn</th>
+          <th>Withdrawal Charges</th>
+          <th>Running Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for exp in expenses %}
+        <tr>
+          <td>{{ exp.date|date:"d/m/Y" }}</td>
+          <td>{{ exp.received_by }}</td>
+          <td>{{ exp.charged_to }}</td>
+          <td>{{ exp.description }}</td>
+          <td>{{ exp.receipt_no }}</td>
+          <td style="text-align:right;">{{ exp.amount_deposited|default:"0"|intcomma }}</td>
+          <td style="text-align:right;">{{ exp.amount_withdrawn|default:"0"|intcomma }}</td>
+          <td style="text-align:right;">{{ exp.withdrawal_charges|default:"0"|intcomma }}</td>
+          <td style="text-align:right;">{{ exp.running_balance|intcomma }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="9" style="text-align:center;">No records for this period.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5" style="text-align:center;">Totals</td>
+          <td style="text-align:right;">{{ totals.deposited|intcomma }}</td>
+          <td style="text-align:right;">{{ totals.withdrawn|intcomma }}</td>
+          <td style="text-align:right;">{{ totals.withdrawal_charges|intcomma }}</td>
+          <td style="text-align:right;">{{ totals.running_balance|intcomma }}</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Footer -->
+    <div style="margin-top:30px; font-size:14px;">
+      Prepared by: <u>{{ prepared_by }}</u> &nbsp;&nbsp;&nbsp;&nbsp;
+      Approved by: <u>{% if approved_by %}{{ approved_by }}{% else %}__________________{% endif %}</u>
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="buttons" style="margin-top:15px;">
+    <button onclick="window.print()">🖨️ Print</button>
+    <button onclick="window.location.href='/dashboard/'">⬅️ Back</button>
+  </div>
+</body>
+</html>
