@@ -18,12 +18,11 @@ from .models import Expense
 from django.shortcuts import render, get_object_or_404, redirect
 
 
-
-# -------------------- Landing Page --------------------
+# -------------------- Landing --------------------
 def landing(request):
     return render(request, "cashflow/landing.html")
 
-# -------------------- Authentication --------------------
+# -------------------- Register --------------------
 def register_view(request):
     form = UserCreationForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
@@ -31,34 +30,39 @@ def register_view(request):
         messages.success(request, "✅ Account created successfully. Please log in.")
         return redirect("login")
     return render(request, "cashflow/register.html", {"form": form})
+
+# -------------------- Login --------------------
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+
 def login_view(request):
+    role = request.GET.get('role', '')  # get role from URL query param
+
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-        login_type = request.POST.get("login_type")  # "admin" or "user"
+        login_type = request.POST.get("login_type")  # 'admin' or 'user'
 
         user = authenticate(request, username=username, password=password)
 
-        if user:
-            login(request, user)
-
-            # Check role and intended login
+        if user is not None:
+            # Check if user is admin or regular user
             if login_type == "admin" and user.is_staff:
+                login(request, user)
                 return redirect("admin_dashboard")
             elif login_type == "user" and not user.is_staff:
+                login(request, user)
                 return redirect("user_dashboard")
             else:
-                messages.error(request, "❌ Unauthorized login for this section.")
-                logout(request)
-                return redirect("landing")
-
+                messages.error(request, "You don't have permission for this role.")
         else:
-            messages.error(request, "❌ Invalid username or password")
+            messages.error(request, "Invalid username or password.")
 
-    return render(request, "cashflow/login.html")
+    return render(request, "cashflow/login.html", {"role": role})
 
 
-
+# -------------------- Logout --------------------
 @login_required
 def logout_view(request):
     logout(request)
@@ -68,10 +72,6 @@ def logout_view(request):
 @login_required
 def dashboard(request):
     return redirect("admin_dashboard") if request.user.is_staff else redirect("user_dashboard")
-
-# -------------------- Dashboards --------------------
-@login_required
-
 
 def admin_dashboard(request):
     # Only allow admins
@@ -110,17 +110,19 @@ def admin_dashboard(request):
 
 @login_required
 
-def user_dashboard(request):
-    # Only allow regular users
-    if request.user.is_staff:
-        return redirect('admin_dashboard')  # redirect admins
 
-    # Show expenses uploaded by this user
+@login_required
+def user_dashboard(request):
+    # Redirect staff/admins to admin dashboard
+    if request.user.is_staff:
+        return redirect('admin_dashboard')
+
+    # Get all expenses uploaded by this user
     expenses = Expense.objects.filter(uploaded_by=request.user).order_by("-date")
 
-    # Filter by status from dropdown
+    # Get status filter from GET params
     status = request.GET.get("status", "all")
-    if status and status.lower() != "all":
+    if status.lower() != "all":
         expenses = expenses.filter(status__iexact=status)
 
     # Totals for filtered expenses
@@ -130,11 +132,13 @@ def user_dashboard(request):
         "total_charges": expenses.aggregate(total=Sum("withdrawal_charges"))["total"] or 0,
     }
 
-    return render(request, "cashflow/user_dashboard.html", {
+    context = {
         "expenses": expenses,
         "totals": totals,
         "status": status,
-    })
+    }
+
+    return render(request, "cashflow/user_dashboard.html", context)
 
 from django.shortcuts import render, redirect
 from django.contrib import messages

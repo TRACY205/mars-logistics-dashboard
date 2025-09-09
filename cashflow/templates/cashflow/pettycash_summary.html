@@ -1,4 +1,5 @@
 {% load humanize %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,45 +21,63 @@
     }
 
     .header {
-      text-align: left;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .header h2 {
-      margin: 0;
-      font-size: 16px;
-    }
-    .period {
-      font-size: 13px;
-      font-weight: normal;
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
     }
 
-    .balance {
+    .logo {
+      flex: 0 0 auto;
+      margin-right: 20px;
+    }
+
+    .logo img {
+      height: 80px;
+      width: auto;
+    }
+
+    /* Period line and date below logo */
+    .logo div {
+      margin-top: 5px;
+      font-size: 12px;
+    }
+
+    /* Balance label above table */
+    .balance-top {
       text-align: right;
-      margin-top: -35px;
-      font-size: 13px;
       font-weight: bold;
+      margin-bottom: 5px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 30px;
+      margin-top: 5px;
     }
+
     th, td {
       border: 1px solid black;
-      padding: 6px;
+      padding: 4px 6px;
       font-size: 12px;
       text-align: left;
     }
+
     th {
       text-align: center;
       background: #f2f2f2;
     }
-    tfoot td {
-      font-weight: bold;
-      text-align: right;
-      background: #e6e6e6;
+
+   tfoot td {
+  font-weight: bold;
+  text-align: right;
+  background: #f9f5f5;
+  padding: 12px 6px;   /* 12px top/bottom, 6px left/right */
+  border-top: 100px; /* adds extra space above the footer */
+}
+
+    .footer {
+      margin-top: 60px;
+      font-size: 14px;
     }
 
     /* Filters */
@@ -111,6 +130,11 @@
     .buttons button:hover {
       background: #0b7dda;
     }
+
+    /* Align numbers to right with commas, no decimals */
+    .number-cell {
+      text-align: right;
+    }
   </style>
 </head>
 <body>
@@ -132,65 +156,74 @@
   <div class="report-container">
     <!-- Header -->
     <div class="header">
-      <h2>MARS LOGISTICS LIMITED</h2>
-      <div class="period">
-        For {{ start_date|date:"d/m/Y" }} through {{ end_date|date:"d/m/Y" }}
+      <div class="logo">
+        <img src="{% static 'cashflow/images/mars_logo1.jpg' %}" alt="Logo">
+        <div>{{ today|date:"d/m/Y" }}</div>
+        <div>For {{ start_date|date:"d/m/Y" }} through {{ end_date|date:"d/m/Y" }}</div>
       </div>
     </div>
 
-    <!-- Balance -->
-    <div class="balance">
-       Balance: {{ closing_balance|default:"0"|intcomma }}
-
+    <!-- Balance at the top right -->
+    <div class="balance-top">
+      Balance: 
+      {% if expenses %}
+        {{ expenses.last.running_balance|floatformat:0|intcomma }}
+      {% else %}
+        0
+      {% endif %}
     </div>
 
     <!-- Table -->
     <table>
       <thead>
         <tr>
-          <th>Date</th>
           <th>Received By</th>
           <th>Charged To</th>
           <th>Description</th>
           <th>Receipt No.</th>
-          <th>Amount Deposited</th>
-          <th>Amount Withdrawn</th>
-          <th>Withdrawal Charges</th>
-          <th>Running Balance</th>
+          <th>Deposited</th>
+          <th>Withdrawn</th>
+          <th>Charges</th>
+          <th>Balance</th>
         </tr>
       </thead>
       <tbody>
         {% for exp in expenses %}
         <tr>
-          <td>{{ exp.date|date:"d/m/Y" }}</td>
           <td>{{ exp.received_by }}</td>
           <td>{{ exp.charged_to }}</td>
           <td>{{ exp.description }}</td>
           <td>{{ exp.receipt_no }}</td>
-          <td style="text-align:right;">{{ exp.amount_deposited|default:"0"|intcomma }}</td>
-          <td style="text-align:right;">{{ exp.amount_withdrawn|default:"0"|intcomma }}</td>
-          <td style="text-align:right;">{{ exp.withdrawal_charges|default:"0"|intcomma }}</td>
-          <td style="text-align:right;">{{ exp.running_balance|intcomma }}</td>
+          <td class="number-cell">{{ exp.amount_deposited|default:"0"|floatformat:0|intcomma }}</td>
+          <td class="number-cell">{{ exp.amount_withdrawn|default:"0"|floatformat:0|intcomma }}</td>
+          <td class="number-cell">{{ exp.withdrawal_charges|default:"0"|floatformat:0|intcomma }}</td>
+          <td class="number-cell">{{ exp.running_balance|floatformat:0|intcomma }}</td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="9" style="text-align:center;">No records for this period.</td>
+          <td colspan="8" style="text-align:center;">No records for this period.</td>
         </tr>
         {% endfor %}
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="5" style="text-align:center;">Totals</td>
-          <td style="text-align:right;">{{ totals.deposited|intcomma }}</td>
-          <td style="text-align:right;">{{ totals.withdrawn|intcomma }}</td>
-          <td style="text-align:right;">{{ totals.withdrawal_charges|intcomma }}</td>
-          <td style="text-align:right;">{{ totals.running_balance|intcomma }}</td>
+          <td colspan="4" style="text-align:center;">Totals</td>
+          <td class="number-cell">{{ totals.deposited|floatformat:0|intcomma }}</td>
+          <td class="number-cell">{{ totals.withdrawn|floatformat:0|intcomma }}</td>
+          <td class="number-cell">{{ totals.withdrawal_charges|floatformat:0|intcomma }}</td>
+          <td class="number-cell">
+            {% if expenses %}
+              
+            {% else %}
+              0
+            {% endif %}
+          </td>
         </tr>
       </tfoot>
     </table>
 
     <!-- Footer -->
-    <div style="margin-top:30px; font-size:14px;">
+    <div class="footer">
       Prepared by: <u>{{ prepared_by }}</u> &nbsp;&nbsp;&nbsp;&nbsp;
       Approved by: <u>{% if approved_by %}{{ approved_by }}{% else %}__________________{% endif %}</u>
     </div>
@@ -201,5 +234,6 @@
     <button onclick="window.print()">🖨️ Print</button>
     <button onclick="window.location.href='/dashboard/'">⬅️ Back</button>
   </div>
+
 </body>
 </html>
