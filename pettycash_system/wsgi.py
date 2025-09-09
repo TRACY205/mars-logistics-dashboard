@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import os
 import sys
 
@@ -13,3 +14,21 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'pettycash_system.settings'
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
+=======
+"""
+WSGI config for pettycash_system project.
+
+It exposes the WSGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
+"""
+
+import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pettycash_system.settings')
+
+application = get_wsgi_application()
+>>>>>>> ba4f258fae8aca50f6de6a710b182bf1333952ef
