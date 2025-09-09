@@ -26,16 +26,16 @@ ROOT_URLCONF = 'pettycash_system.urls'
 SECRET_KEY = 'django-insecure-0z!yf)%gik716v%*_u1y@q*8$hpp5tijhw38jqm^#@3(at88kn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-<<<<<<< HEAD
+
 DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "TRACY205.pythonanywhere.com"]
 
-=======
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
->>>>>>> ba4f258fae8aca50f6de6a710b182bf1333952ef
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -125,7 +125,7 @@ USE_TZ = True
 
 # settings.py
 
-<<<<<<< HEAD
+
 # -------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -139,7 +139,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-=======
+
 STATIC_URL = '/static/'
 STATIC_ROOT = '/home/Tee2/mars-logistics-dashboard/staticfiles'
 
@@ -148,7 +148,7 @@ STATICFILES_DIRS = [
 ]
 
 
->>>>>>> ba4f258fae8aca50f6de6a710b182bf1333952ef
+
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
