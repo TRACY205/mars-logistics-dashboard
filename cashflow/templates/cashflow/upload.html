@@ -1,0 +1,66 @@
+{% extends "cashflow/base.html" %}
+
+{% block title %}Upload Expense{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto p-8 bg-white shadow rounded-2xl">
+
+    <!-- Page Title -->
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">
+        Upload Expense
+    </h2>
+
+    <!-- Upload Form -->
+    <form method="post" enctype="multipart/form-data" action="{% url 'upload_expense' %}" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- File Input -->
+        <div>
+            <label for="file" class="block text-sm font-semibold text-gray-700 mb-2">
+                Choose Excel File
+            </label>
+            <input type="file" name="file" id="file"
+                   class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-green-300" required>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-full shadow">
+                Upload
+            </button>
+        </div>
+    </form>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="mt-6">
+        {% for message in messages %}
+        <div class="p-3 rounded-lg 
+                    {% if message.tags == 'success' %}bg-green-100 text-green-700
+                    {% elif message.tags == 'error' %}bg-red-100 text-red-700
+                    {% else %}bg-gray-100 text-gray-700{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+<!-- Back to Dashboard Button -->
+<div class="mt-8 text-center">
+    <a href="{% if request.user.is_staff %}{% url 'admin_dashboard' %}{% else %}{% url 'user_dashboard' %}{% endif %}" 
+       class="inline-block bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-full shadow">
+        Back to Dashboard
+    </a>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

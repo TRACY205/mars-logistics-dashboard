@@ -1,0 +1,142 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Expense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen flex flex-col items-center p-6 font-sans">
+
+<!-- Back Button -->
+<div class="w-full max-w-3xl mb-6">
+    {% if request.user.is_staff %}
+        <a href="{% url 'admin_dashboard' %}" 
+           class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-full shadow-md transition transform hover:-translate-y-1 hover:scale-105">
+            ← Back to Dashboard
+        </a>
+    {% else %}
+        <a href="{% url 'user_dashboard' %}" 
+           class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-full shadow-md transition transform hover:-translate-y-1 hover:scale-105">
+            ← Back to Dashboard
+        </a>
+    {% endif %}
+</div>
+
+<div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-3xl border-2 border-green-200">
+    <h2 class="text-3xl font-extrabold text-green-700 text-center mb-6 drop-shadow-md">💰 Add Expense</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="bg-green-100 text-green-800 p-3 rounded-lg mb-4 text-sm shadow-sm">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" class="space-y-5">
+        {% csrf_token %}
+
+        <!-- Date -->
+        <div>
+            <label class="block mb-1 font-semibold text-green-700">Date Received</label>
+            <input type="date" name="date" 
+                   value="{{ today|date:'Y-m-d' }}" required
+                   class="w-full px-4 py-2 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <!-- Received By -->
+        <div>
+            <label class="block mb-1 font-semibold text-green-700">Received By</label>
+            <input type="text" name="received_by" placeholder="Receiver name"
+                   class="w-full px-4 py-2 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <!-- Charged To -->
+        <div>
+            <label class="block mb-1 font-semibold text-green-700">Charged To</label>
+            <input type="text" name="charged_to" placeholder="Person/Department" required
+                   class="w-full px-4 py-2 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <!-- Description -->
+        <div>
+            <label class="block mb-1 font-semibold text-green-700">Description</label>
+            <input type="text" name="description" placeholder="Expense description" required
+                   class="w-full px-4 py-2 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <!-- Receipt No. -->
+        <div>
+            <label class="block mb-1 font-semibold text-green-700">Receipt No.</label>
+            <input type="text" name="receipt_no" placeholder="Receipt number (optional)"
+                   class="w-full px-4 py-2 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <!-- Amount Deposited -->
+        <div>
+            <label class="block mb-1 font-semibold text-green-700">Amount Deposited</label>
+            <input type="number" name="amount_deposited" step="0.01"
+                   class="w-full px-4 py-2 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <!-- Amount Withdrawn -->
+        <div>
+            <label class="block mb-1 font-semibold text-green-700">Amount Withdrawn</label>
+            <input type="number" name="amount_withdrawn" step="0.01"
+                   class="w-full px-4 py-2 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <!-- Withdrawal Charges -->
+        <div>
+            <label class="block mb-1 font-semibold text-green-700">Withdrawal Charges</label>
+            <input type="number" name="withdrawal_charges" step="0.01"
+                   class="w-full px-4 py-2 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <!-- Running Balance (formatted with commas) -->
+        <div>
+            <label class="block mb-1 font-semibold text-green-700">Running Balance</label>
+            <input type="text" name="running_balance"
+                   value="{{ current_balance|floatformat:0|intcomma }}"
+                   readonly
+                   class="w-full px-4 py-2 border-2 border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 bg-gray-100">
+        </div>
+
+        <button type="submit" 
+                class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold shadow-lg transition transform hover:-translate-y-1 hover:scale-105">
+            ➕ Add Expense
+        </button>
+    </form>
+</div>
+
+</body>
+</html>
+<script>
+    // Get input fields
+    const depositedInput = document.querySelector('input[name="amount_deposited"]');
+    const withdrawnInput = document.querySelector('input[name="amount_withdrawn"]');
+    const chargesInput = document.querySelector('input[name="withdrawal_charges"]');
+    const balanceInput = document.querySelector('input[name="running_balance"]');
+
+    // Initial balance from server
+    let currentBalance = parseFloat("{{ current_balance|floatformat:0 }}");
+
+    function formatNumber(num) {
+        return num.toLocaleString('en-US', {maximumFractionDigits: 0});
+    }
+
+    function updateBalance() {
+        let deposited = parseFloat(depositedInput.value) || 0;
+        let withdrawn = parseFloat(withdrawnInput.value) || 0;
+        let charges = parseFloat(chargesInput.value) || 0;
+
+        let newBalance = currentBalance + deposited - withdrawn - charges;
+        balanceInput.value = formatNumber(newBalance);
+    }
+
+    // Listen for input changes
+    depositedInput.addEventListener('input', updateBalance);
+    withdrawnInput.addEventListener('input', updateBalance);
+    chargesInput.addEventListener('input', updateBalance);
+</script>

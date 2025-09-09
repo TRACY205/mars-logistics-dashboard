@@ -1,0 +1,30 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Print All Approved Expenses</title>
+    <style>
+        @media print {
+            .page-break { page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+
+{% if expenses %}
+    {% for expense in expenses %}
+        {% include 'cashflow/print_expense.html' with expense=expense total_outgoing=expense.amount_withdrawn|add:expense.withdrawal_charges %}
+        <div class="page-break"></div>
+    {% endfor %}
+
+    <script>
+        window.onload = function() {
+            window.print();
+        };
+    </script>
+{% else %}
+    <h2>No approved expenses to print.</h2>
+{% endif %}
+
+</body>
+</html>

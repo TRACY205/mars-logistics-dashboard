@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Expense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+    <div class="max-w-lg w-full bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-6 text-gray-700">Edit Expense</h2>
+
+        <form method="post" class="space-y-5">
+            {% csrf_token %}
+
+            <!-- Received By -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Received By</label>
+                {{ form.received_by }}
+            </div>
+
+            <!-- Charged To -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Charged To</label>
+                {{ form.charged_to }}
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                {{ form.description }}
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-4">
+                <button type="submit" 
+                        class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg shadow">
+                    Save Changes
+                </button>
+                <a href="{% url 'user_dashboard' %}" 
+                   class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg shadow">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
+
+

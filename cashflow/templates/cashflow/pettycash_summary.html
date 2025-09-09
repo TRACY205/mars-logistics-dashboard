@@ -1,0 +1,241 @@
+{% load humanize %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Petty Cash Summary</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      margin: 20px;
+    }
+
+    /* Outer bold border */
+    .report-container {
+      border: 3px solid black;
+      padding: 15px;
+      margin: 10px auto;
+    }
+
+    .header {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .logo {
+      flex: 0 0 auto;
+      margin-right: 20px;
+    }
+
+    .logo img {
+      height: 80px;
+      width: auto;
+    }
+
+    /* Period line and date below logo */
+    .logo div {
+      margin-top: 5px;
+      font-size: 12px;
+    }
+
+    /* Balance label above table */
+    .balance-top {
+      text-align: right;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 4px 6px;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    th {
+      text-align: center;
+      background: #f2f2f2;
+    }
+
+   tfoot td {
+  font-weight: bold;
+  text-align: right;
+  background: #f9f5f5;
+  padding: 12px 6px;   /* 12px top/bottom, 6px left/right */
+  border-top: 100px; /* adds extra space above the footer */
+}
+
+    .footer {
+      margin-top: 60px;
+      font-size: 14px;
+    }
+
+    /* Filters */
+    .controls {
+      margin-bottom: 15px;
+    }
+    .controls form {
+      display: inline-block;
+      background: #f9f9f9;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-right: 10px;
+    }
+    .controls input[type="date"] {
+      padding: 4px 6px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .controls button {
+      background: #4CAF50;
+      border: none;
+      color: white;
+      padding: 6px 14px;
+      margin-left: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .controls button:hover {
+      background: #45a049;
+    }
+
+    @media print {
+      .buttons, .controls { display: none; }
+      @page { size: A4 landscape; margin: 10mm; }
+    }
+
+    .buttons button {
+      background: #2196F3;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      margin-right: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .buttons button:hover {
+      background: #0b7dda;
+    }
+
+    /* Align numbers to right with commas, no decimals */
+    .number-cell {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Filter controls -->
+  <div class="controls">
+    <form method="get">
+      <label>Single Day: <input type="date" name="day" value="{{ day }}"></label>
+      <button type="submit">Filter</button>
+    </form>
+
+    <form method="get">
+      <label>From: <input type="date" name="start_date" value="{{ start_date }}"></label>
+      <label>To: <input type="date" name="end_date" value="{{ end_date }}"></label>
+      <button type="submit">Filter</button>
+    </form>
+  </div>
+
+  <div class="report-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <img src="{% static 'cashflow/images/mars_logo1.jpg' %}" alt="Mars Logo" style="height:150px; width:290px;">
+
+
+        <div>{{ today|date:"d/m/Y" }}</div>
+        <div>For {{ start_date|date:"d/m/Y" }} through {{ end_date|date:"d/m/Y" }}</div>
+      </div>
+    </div>
+
+    <!-- Balance at the top right -->
+    <div class="balance-top">
+      Balance: 
+      {% if expenses %}
+        {{ expenses.last.running_balance|floatformat:0|intcomma }}
+      {% else %}
+        0
+      {% endif %}
+    </div>
+
+    <!-- Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Received By</th>
+          <th>Charged To</th>
+          <th>Description</th>
+          <th>Receipt No.</th>
+          <th>Deposited</th>
+          <th>Withdrawn</th>
+          <th>Charges</th>
+          <th>Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for exp in expenses %}
+        <tr>
+          <td>{{ exp.received_by }}</td>
+          <td>{{ exp.charged_to }}</td>
+          <td>{{ exp.description }}</td>
+          <td>{{ exp.receipt_no }}</td>
+          <td class="number-cell">{{ exp.amount_deposited|default:"0"|floatformat:0|intcomma }}</td>
+          <td class="number-cell">{{ exp.amount_withdrawn|default:"0"|floatformat:0|intcomma }}</td>
+          <td class="number-cell">{{ exp.withdrawal_charges|default:"0"|floatformat:0|intcomma }}</td>
+          <td class="number-cell">{{ exp.running_balance|floatformat:0|intcomma }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" style="text-align:center;">No records for this period.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" style="text-align:center;">Totals</td>
+          <td class="number-cell">{{ totals.deposited|floatformat:0|intcomma }}</td>
+          <td class="number-cell">{{ totals.withdrawn|floatformat:0|intcomma }}</td>
+          <td class="number-cell">{{ totals.withdrawal_charges|floatformat:0|intcomma }}</td>
+          <td class="number-cell">
+            {% if expenses %}
+              
+            {% else %}
+              0
+            {% endif %}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Footer -->
+    <div class="footer">
+      Prepared by: <u>{{ prepared_by }}</u> &nbsp;&nbsp;&nbsp;&nbsp;
+      Approved by: <u>{% if approved_by %}{{ approved_by }}{% else %}__________________{% endif %}</u>
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="buttons" style="margin-top:15px;">
+    <button onclick="window.print()">🖨️ Print</button>
+    <button onclick="window.location.href='/dashboard/'">⬅️ Back</button>
+  </div>
+
+</body>
+</html>
