@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import os
 import sys
 
@@ -14,7 +14,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'pettycash_system.settings'
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-=======
+
 """
 WSGI config for pettycash_system project.
 
@@ -31,4 +31,3 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pettycash_system.settings')
 
 application = get_wsgi_application()
->>>>>>> ba4f258fae8aca50f6de6a710b182bf1333952ef
