@@ -9,56 +9,61 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      font-size: 13px;
+      font-size: 14px; /* increased font */
       margin: 20px;
     }
 
     /* Outer bold border */
     .report-container {
       border: 3px solid black;
-      padding: 15px;
+      padding: 20px;
       margin: 10px auto;
     }
 
+    /* Header */
     .header {
       display: flex;
+      justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     .logo {
-      flex: 0 0 auto;
-      margin-right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .logo img {
-      height: 80px;
+      height: 100px;
       width: auto;
+      margin-bottom: 8px;
     }
 
-    /* Period line and date below logo */
-    .logo div {
+    .report-date {
+      font-size: 14px; /* bigger font */
+      font-weight: bold;
       margin-top: 5px;
-      font-size: 12px;
     }
 
-    /* Balance label above table */
     .balance-top {
       text-align: right;
       font-weight: bold;
-      margin-bottom: 5px;
+      font-size: 14px;
+      margin-top: 10px;
     }
 
+    /* Table */
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 5px;
+      margin-top: 10px;
+      font-size: 14px; /* increased font */
     }
 
     th, td {
       border: 1px solid black;
-      padding: 4px 6px;
-      font-size: 12px;
+      padding: 6px 8px;
       text-align: left;
     }
 
@@ -67,23 +72,33 @@
       background: #f2f2f2;
     }
 
-   tfoot td {
-  font-weight: bold;
-  text-align: right;
-  background: #f9f5f5;
-  padding: 12px 6px;   /* 12px top/bottom, 6px left/right */
-  border-top: 100px; /* adds extra space above the footer */
-}
+    tfoot td {
+      font-weight: bold;
+      text-align: right;
+      background: #f9f5f5;
+      padding: 12px 6px;
+    }
 
+    .number-cell {
+      text-align: right;
+    }
+
+    /* Footer */
     .footer {
       margin-top: 60px;
       font-size: 14px;
     }
 
-    /* Filters */
+    .footer span {
+      display: inline-block;
+      margin-right: 30px;
+    }
+
+    /* Filter controls */
     .controls {
       margin-bottom: 15px;
     }
+
     .controls form {
       display: inline-block;
       background: #f9f9f9;
@@ -92,12 +107,14 @@
       border-radius: 10px;
       margin-right: 10px;
     }
+
     .controls input[type="date"] {
       padding: 4px 6px;
       border: 1px solid #bbb;
       border-radius: 6px;
       font-size: 12px;
     }
+
     .controls button {
       background: #4CAF50;
       border: none;
@@ -108,15 +125,18 @@
       cursor: pointer;
       font-size: 12px;
     }
+
     .controls button:hover {
       background: #45a049;
     }
 
+    /* Print styles */
     @media print {
       .buttons, .controls { display: none; }
       @page { size: A4 landscape; margin: 10mm; }
     }
 
+    /* Buttons */
     .buttons button {
       background: #2196F3;
       border: none;
@@ -125,15 +145,11 @@
       margin-right: 6px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 13px;
-    }
-    .buttons button:hover {
-      background: #0b7dda;
+      font-size: 14px; /* increased font */
     }
 
-    /* Align numbers to right with commas, no decimals */
-    .number-cell {
-      text-align: right;
+    .buttons button:hover {
+      background: #0b7dda;
     }
   </style>
 </head>
@@ -157,32 +173,22 @@
     <!-- Header -->
     <div class="header">
       <div class="logo">
-<<<<<<< HEAD
-        <img src="{% static 'cashflow/images/mars_logo1.jpg' %}" alt="Mars Logo" style="height:150px; width:290px;">
-
-
-=======
-        <img src="{% static 'cashflow/images/mars_logo1.jpg' %}" alt="Logo">
->>>>>>> ba4f258fae8aca50f6de6a710b182bf1333952ef
-        <div>{{ today|date:"d/m/Y" }}</div>
-        <div>For {{ start_date|date:"d/m/Y" }} through {{ end_date|date:"d/m/Y" }}</div>
+        <img src="{% static 'cashflow/images/mars_logo1.jpg' %}" alt="Mars Logo">
+        <div class="report-date">
+          Date: {{ today|date:"d/m/Y" }}<br>
+          For {{ start_date|date:"d/m/Y" }}{% if start_date != end_date %} through {{ end_date|date:"d/m/Y" }}{% endif %}
+        </div>
       </div>
-    </div>
-
-    <!-- Balance at the top right -->
-    <div class="balance-top">
-      Balance: 
-      {% if expenses %}
-        {{ expenses.last.running_balance|floatformat:0|intcomma }}
-      {% else %}
-        0
-      {% endif %}
+      <div class="balance-top">
+        Balance: {% if expenses %}{{ expenses.last.running_balance|floatformat:0|intcomma }}{% else %}0{% endif %}
+      </div>
     </div>
 
     <!-- Table -->
     <table>
       <thead>
         <tr>
+          <th>Date</th> <!-- new column -->
           <th>Received By</th>
           <th>Charged To</th>
           <th>Description</th>
@@ -196,7 +202,8 @@
       <tbody>
         {% for exp in expenses %}
         <tr>
-          <td>{{ exp.received_by }}</td>
+          <td>{{ exp.date|date:"d/m/Y" }}</td> <!-- show date -->
+          <td>{{ exp.received_by|default:"__________________" }}</td>
           <td>{{ exp.charged_to }}</td>
           <td>{{ exp.description }}</td>
           <td>{{ exp.receipt_no }}</td>
@@ -207,36 +214,30 @@
         </tr>
         {% empty %}
         <tr>
-          <td colspan="8" style="text-align:center;">No records for this period.</td>
+          <td colspan="9" style="text-align:center;">No records for this period.</td>
         </tr>
         {% endfor %}
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="4" style="text-align:center;">Totals</td>
+          <td colspan="5" style="text-align:center;">Totals</td>
           <td class="number-cell">{{ totals.deposited|floatformat:0|intcomma }}</td>
           <td class="number-cell">{{ totals.withdrawn|floatformat:0|intcomma }}</td>
           <td class="number-cell">{{ totals.withdrawal_charges|floatformat:0|intcomma }}</td>
-          <td class="number-cell">
-            {% if expenses %}
-              
-            {% else %}
-              0
-            {% endif %}
-          </td>
+          <td class="number-cell"></td>
         </tr>
       </tfoot>
     </table>
 
     <!-- Footer -->
     <div class="footer">
-      Prepared by: <u>{{ prepared_by }}</u> &nbsp;&nbsp;&nbsp;&nbsp;
-      Approved by: <u>{% if approved_by %}{{ approved_by }}{% else %}__________________{% endif %}</u>
+      <span>Prepared by: <u>{{ prepared_by }}</u></span>
+      <span>Approved by: <u>{% if approved_by %}{{ approved_by }}{% else %}__________________{% endif %}</u></span>
     </div>
   </div>
 
   <!-- Action buttons -->
-  <div class="buttons" style="margin-top:15px;">
+  <div class="buttons">
     <button onclick="window.print()">🖨️ Print</button>
     <button onclick="window.location.href='/dashboard/'">⬅️ Back</button>
   </div>

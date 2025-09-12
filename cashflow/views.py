@@ -443,60 +443,56 @@ def voucher_view(request, voucher_id):
         "total_shs": totals["total_shs"] or 0,
         "total_cts": totals["total_cts"] or 0,
     })
-
-
-
 from django.shortcuts import render
-from django.db.models import Sum
-from datetime import datetime
 from .models import Expense
+from django.db.models import Sum
+from django.utils import timezone
 
 def pettycash_summary(request):
-    day = request.GET.get("day")
-    start_date = request.GET.get("start_date")
-    end_date = request.GET.get("end_date")
+    # Get filter dates from GET params
+    day = request.GET.get('day')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
 
-    expenses = Expense.objects.all()
+    # Default dates if not provided
+    today = timezone.now().date()
+    if not start_date:
+        start_date = today
+    if not end_date:
+        end_date = today
 
-    if day:
-        try:
-            day_obj = datetime.strptime(day, "%Y-%m-%d").date()
-            expenses = expenses.filter(date=day_obj)
-            start_date, end_date = day_obj, day_obj
-        except ValueError:
-            pass
-    elif start_date and end_date:
-        try:
-            start_date_obj = datetime.strptime(start_date, "%Y-%m-%d").date()
-            end_date_obj = datetime.strptime(end_date, "%Y-%m-%d").date()
-            expenses = expenses.filter(date__range=[start_date_obj, end_date_obj])
-            start_date, end_date = start_date_obj, end_date_obj
-        except ValueError:
-            pass
+    # Filter expenses
+    expenses = Expense.objects.filter(date__range=[start_date, end_date]).order_by('date')
 
     # Totals
-    totals = expenses.aggregate(
-        deposited=Sum("amount_deposited") or 0,
-        withdrawn=Sum("amount_withdrawn") or 0,
-        withdrawal_charges=Sum("withdrawal_charges") or 0,
-    )
-
-    # Closing balance = last running balance
-    last_balance = expenses.order_by("-date", "-id").first()
-    closing_balance = last_balance.running_balance if last_balance else 0
-
-    context = {
-        "day": day,
-        "start_date": start_date,
-        "end_date": end_date,
-        "expenses": expenses,
-        "totals": totals,
-        "closing_balance": closing_balance,
-         "prepared_by": request.user.username if request.user.is_authenticated else "Anonymous",
-          "approved_by": request.user.get_full_name() or request.user.username if (request.user.is_authenticated and request.user.is_staff) else None,
+    totals = {
+        'deposited': expenses.aggregate(Sum('amount_deposited'))['amount_deposited__sum'] or 0,
+        'withdrawn': expenses.aggregate(Sum('amount_withdrawn'))['amount_withdrawn__sum'] or 0,
+        'withdrawal_charges': expenses.aggregate(Sum('withdrawal_charges'))['withdrawal_charges__sum'] or 0,
     }
 
-    return render(request, "cashflow/pettycash_summary.html", context)
+    # Prepared by & approved by (example)
+    prepared_by = request.user.username if request.user.is_authenticated else "__________________"
+    approved_by = ""  # Replace with actual approver if needed
+
+    context = {
+        'expenses': expenses,
+        'totals': totals,
+        'prepared_by': prepared_by,
+        'approved_by': approved_by,
+        'today': today,
+        'day': day,
+        'start_date': start_date,
+        'end_date': end_date,
+    }
+    return render(request, 'cashflow/pettycash_summary.html', context)
+
+
+
+
+ 
+ 
+
 
 
 from django.shortcuts import render, get_object_or_404

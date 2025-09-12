@@ -10,9 +10,9 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      font-size: 16px;
+      font-size: 20px; /* bigger base font */
       margin: 0;
-      padding: 10px;
+      padding: 6px; /* smaller padding for A6 fit */
     }
     .voucher {
       border: 2px solid #333; 
@@ -25,36 +25,32 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
-    .company-line {
-      font-size: 16px;
-      margin-top: 5px;
+      margin-bottom: 14px;
+      font-size: 25px; /* bigger */
     }
     .voucher-title {
-    font-size: 15px;        /* larger text */
-    font-weight: bold;       /* bold */
-    margin-bottom: 5px;      /* spacing below */
-    color: #000000;             /* dark color */
-    letter-spacing: 1px;     /* optional spacing */
-     margin-left: 50px; /* pushes it to the right of the logo */
-}
-
+      font-size: 28px;        
+      font-weight: bold;       
+      margin-bottom: 18px;      
+      color: #000;          
+      letter-spacing: 1px;     
+      margin-left: 35px; 
+    }
     .row {
       display: flex;
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
     .ac-wrapper {
       display: flex;
-      border: 2px solid #000000; 
+      border: 2px solid #000; 
       border-radius: 8px;
       width: 100%;
       overflow: hidden;
+      position: relative;
     }
     .ac-box {
       width: 70%;
-      padding: 10px;
+      padding: 14px;
       box-sizing: border-box;
       min-height: 260px;
       border-right: 1px solid #030303; 
@@ -62,7 +58,7 @@
       word-wrap: break-word;
       overflow-wrap: break-word;
       white-space: normal;
-      font-size: 16px;
+      font-size: 20px; /* increased */
     }
     .ac-title {
       font-weight: bold;
@@ -71,39 +67,40 @@
       box-sizing: border-box;
       padding-bottom: 8px;
       margin-bottom: 10px;
-      font-size: 18px;
+      font-size: 22px; /* increased */
     }
     .receipt-line {
-      margin-top: 60px;
+      margin-top: 50px;
       font-weight: normal;
-      font-size: 16px;
+      font-size: 22px; /* bigger */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-right: 20px;
     }
     .shs-inline {
-      margin-top: 60px;
+      margin-top: 60px; 
       font-weight: bold;
       text-decoration: underline;
-      font-size: 18px;
+      font-size: 22px; /* bigger */
     }
     .total-inside {
       position: absolute;
-      bottom: 10px;
-      right: 12px;
+      bottom: 12px;
+      right: 14px;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 20px; /* bigger */
     }
-    /* Move only the Transaction Charges row up */
-.amount-box td.transaction-cell {
-    vertical-align: top;   /* aligns content to top */
-    padding-top: 4px;      /* reduce top padding to move it up */
-}
-
-
-
-
+    .amount-box td.transaction-cell {
+      vertical-align: top;   
+      padding-top: 6px;      
+      font-size: 20px; /* bigger */
+    }
     .amount-box {
       width: 30%;
       display: flex;
       flex-direction: column;
+      font-size: 20px; /* bigger */
     }
     .amount-box table {
       width: 100%;
@@ -112,75 +109,57 @@
       height: 100%;
       table-layout: fixed;
       word-wrap: break-word;
-      font-size: 16px;
     }
-    /* Remove default borders */
-.amount-box th, .amount-box td {
-    border: none;
-    font-size: 16px;
-    padding: 10px;
-}
-
-/* Top border for the first row (header or first row of tbody) */
-.amount-box thead th,
-.amount-box tbody tr:first-child td {
-    border-top: 2px solid #333;
-}
-
-/* Bottom border for footer row */
-.amount-box tfoot td {
-    border-top: 2px solid #333; /* bottom line for totals */
-    font-weight: bold;
-    padding-bottom: 8px;
-}
-
-/* Vertical line only between Shs and Cts (middle column) */
-.amount-box td:first-child, .amount-box th:first-child {
-    border-right: 2px solid #333;
-    padding-top: 0px;  
-}
-
- 
-/* Vertical borders */
-.amount-box td:first-child, .amount-box th:first-child {
-    border-left: 2px solid #333;
-}
-
-.amount-box td:last-child, .amount-box th:last-child {
-    border-right: 2px solid #333;
-}
-
-
-/* Optional vertical borders */
-.amount-box td:first-child, .amount-box th:first-child {
-    border-left: 2px solid #333;
-}
-
-.amount-box td:last-child, .amount-box th:last-child {
-    border-right: 2px solid #333;
-}
-
-    
-  
-    .amount-box td:first-child, .amount-box th:first-child { width: 25%; }
-    .amount-box td:last-child, .amount-box th:last-child { width: 3%; }
-    .amount-box tfoot td { font-weight: bold; }
+    .amount-box th, .amount-box td {
+      border: none;
+      font-size: 20px; /* bigger */
+      padding: 8px;
+    }
+    .amount-box thead th,
+    .amount-box tbody tr:first-child td {
+      border-top: 2px solid #333;
+    }
+    .amount-box tfoot td {
+      border-top: 2px solid #333;
+      font-weight: bold;
+      padding-bottom: 6px;
+    }
+    .amount-box td:first-child, .amount-box th:first-child {
+      border-right: 2px solid #333;
+      border-left: 2px solid #333;
+      width: 25%;
+      padding-top: 0px;  
+    }
+    .amount-box td:last-child, .amount-box th:last-child {
+      border-right: 2px solid #333;
+      width: 3%;
+    }
     .footer {
+      font-size: 22px; 
+      margin-top: 50px;
+      width: 100%;
+    }
+    .footer-flex {
       display: flex;
       justify-content: space-between;
-      margin-top: 50px;
-      font-size: 16px;
+      width: 100%;
     }
-    .footer-left div, .footer-right div { margin-bottom: 30px; }
-    .footer-right div {
-      margin-bottom: 0px;
-      margin-top: 98px;
+    .footer-flex div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    .buttons { margin-top: 20px; }
+    .footer-flex div span {
+      margin-top: 12px;
+      font-size: 20px; /* bigger */
+    }
+    .buttons { 
+      margin-top: 16px; 
+    }
     .buttons button {
       padding: 10px 20px;
       margin-right: 10px;
-      font-size: 16px;
+      font-size: 20px; /* bigger */
       cursor: pointer;
       border: 1px solid #333;
       border-radius: 6px;
@@ -189,7 +168,7 @@
     @media print {
       .buttons { display: none; }
       @page { size: A6 landscape; margin: 5mm; }
-      body { font-size: 14px; }
+      body { font-size: 35px; }
     }
   </style>
 </head>
@@ -197,40 +176,26 @@
   <div class="voucher">
     <!-- Header -->
     <div class="header">
-      <!-- Logo -->
-       <img src="{% static 'cashflow/images/mars_logo1.jpg' %}" alt="Mars Logo" style="height:150px; width:290px;">
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> ba4f258fae8aca50f6de6a710b182bf1333952ef
-    
-
-
-      <!-- Voucher Title -->
-       <div class="voucher-title">Petty Cash Voucher No. {{ expense.voucher_no }}</div>
-
-      
-
-      <!-- Date -->
-      <div style="margin-left:auto; font-size:16px;">
-        Date: {{ expense.date|date:"d/m/Y" }}
-      </div>
+      <img src="{% static 'cashflow/images/mars_logo1.jpg' %}" alt="Mars Logo" style="height:135px; width:260px;">
+      <div class="voucher-title">Petty Cash Voucher No. {{ expense.voucher_no }}</div>
+      <div style="margin-left:auto; font-size:20px;">Date: {{ expense.date|date:"d/m/Y" }}</div>
     </div>
 
+    <!-- Main Row -->
     <div class="row">
       <div class="ac-wrapper">
         <div class="ac-box">
           <div class="ac-title">A/C: {{ expense.charged_to }}</div>
           {{ expense.description }}
-          <div class="receipt-line transaction-label">Transaction Charges:</div>
+          <div class="receipt-line">
+            <span>Transaction Charges:</span>
+            <span>{{ expense.receipt_no }}</span>
+          </div>
           <div class="shs-inline">Shs. {{ total_outgoing|number_to_words }}</div>
           <div class="total-inside">TOTAL:</div>
         </div>
 
         <div class="amount-box">
-     
           <table>
             <thead>
               <tr><th>Shs.</th><th>Cts.</th></tr>
@@ -241,13 +206,8 @@
                 <td>{{ expense.amount_withdrawn|floatformat:2|stringformat:"s"|slice:"-2:" }}</td>
               </tr>
               <tr>
-                <tr>
-  <td class="transaction-cell">{{ expense.withdrawal_charges|floatformat:0|intcomma }}</td>
-  <td class="transaction-cell">{{ expense.withdrawal_charges|floatformat:2|stringformat:"s"|slice:"-2:" }}</td>
-</tr>
-
-          
-
+                <td class="transaction-cell">{{ expense.withdrawal_charges|floatformat:0|intcomma }}</td>
+                <td class="transaction-cell">{{ expense.withdrawal_charges|floatformat:2|stringformat:"s"|slice:"-2:" }}</td>
               </tr>
             </tbody>
             <tfoot>
@@ -263,21 +223,24 @@
 
     <!-- Footer -->
     <div class="footer">
-      <div class="footer-left">
-        <div>Prepared by: {{ request.user.username }}</div>
-        <div>Checked by: __________________</div>
-        <div>Authorised by: _______________</div>
-      </div>
-      <div class="footer-right">
-        <div>SIGNATURE OF RECIPIENT: __________________</div>
+      <div class="footer-flex">
+        <div>
+          <span>Prepared by: {{ request.user.username }}</span>
+          <span>Checked by: __________________</span>
+          <span>Authorised by: _______________</span>
+        </div>
+        <div>
+          <span>Received By: {{ expense.received_by|default:"__________________" }}</span>
+          <span>SIGNATURE OF RECIPIENT: __________________</span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Buttons -->
-  <div class="buttons">
-    <button onclick="window.print()">🖨️ Print</button>
-    <button onclick="window.location.href='/dashboard/'">⬅️ Back to Dashboard</button>
+    <!-- Buttons -->
+    <div class="buttons">
+      <button onclick="window.print()">🖨️ Print</button>
+      <button onclick="window.location.href='/dashboard/'">⬅️ Back to Dashboard</button>
+    </div>
   </div>
 </body>
 </html>

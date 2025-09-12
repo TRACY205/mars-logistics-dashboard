@@ -45,15 +45,60 @@
         {% endfor %}
     </div>
     {% endif %}
-<!-- Back to Dashboard Button -->
-<div class="mt-8 text-center">
-    <a href="{% if request.user.is_staff %}{% url 'admin_dashboard' %}{% else %}{% url 'user_dashboard' %}{% endif %}" 
-       class="inline-block bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-full shadow">
-        Back to Dashboard
-    </a>
-</div>
-{% endblock %}
 
+    <!-- ========================= Display Uploaded Expenses ========================= -->
+    {% if expenses %}
+    <form method="post" class="mt-6" onsubmit="return confirmDelete();">
+        {% csrf_token %}
+        <table class="w-full border border-gray-300 rounded-lg">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="p-2 border">Select</th>
+                    <th class="p-2 border">Description</th>
+                    <th class="p-2 border">Amount</th>
+                    <th class="p-2 border">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr>
+                    <td class="p-2 border text-center">
+                        <input type="checkbox" name="selected_expenses" value="{{ expense.id }}">
+                    </td>
+                    <td class="p-2 border">{{ expense.description }}</td>
+                    <td class="p-2 border">{{ expense.amount }}</td>
+                    <td class="p-2 border">{{ expense.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center mt-4">
+            <button type="submit" name="delete_selected"
+                    class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-full shadow">
+                Delete Selected
+            </button>
+        </div>
+    </form>
+    {% endif %}
+
+    <!-- Back to Dashboard Button -->
+    <div class="mt-8 text-center">
+        <a href="{% if request.user.is_staff %}{% url 'admin_dashboard' %}{% else %}{% url 'user_dashboard' %}{% endif %}" 
+           class="inline-block bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-full shadow">
+            Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+<script>
+function confirmDelete() {
+    return confirm("Are you sure you want to delete the selected items?");
+}
+</script>
+
+{% endblock %}
 
 
 
