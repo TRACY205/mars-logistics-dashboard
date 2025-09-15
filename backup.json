@@ -1,0 +1,1180 @@
+[
+{
+    "model": "sessions.session",
+    "pk": "3u8z50e6rp8x3e6vr5xhfhtymclze2hg",
+    "fields": {
+        "session_data": ".eJxVjMEOwiAQRP-FsyEgsFCP3v0GsiwbqRpISnsy_rs06UGPM-_NvEXEbS1x67zEOYuL0EqcfsuE9OS6k_zAem-SWl2XOcldkQft8tYyv66H-3dQsJexdsEqbYJyJgNYS85Csg5QE2njvWJiM_LZDI10QB8YkNhxUBNNicXnC8TVNw4:1uwyMu:yI-STRsTXROM9SXAP3yMEvfEVjszSSIW5VAQOjZU-Es",
+        "expire_date": "2025-09-26T07:38:52.324Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "fc6etzyims0p7krut8dap9qplbaoj1nj",
+    "fields": {
+        "session_data": ".eJxVjMEOwiAQRP-FsyEgsFCP3v0GsiwbqRpISnsy_rs06UGPM-_NvEXEbS1x67zEOYuL0EqcfsuE9OS6k_zAem-SWl2XOcldkQft8tYyv66H-3dQsJexdsEqbYJyJgNYS85Csg5QE2njvWJiM_LZDI10QB8YkNhxUBNNicXnC8TVNw4:1uy3VL:AgAaYpNRpFxfd8Mm53trEbaNFf3RwF8xiueLlxhOaB4",
+        "expire_date": "2025-09-29T07:20:03.628Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "feefkiyxuft4nf0v2swu3gkggmt70ivi",
+    "fields": {
+        "session_data": ".eJxVjMEOwiAQRP-FsyEgsFCP3v0GsiwbqRpISnsy_rs06UGPM-_NvEXEbS1x67zEOYuL0EqcfsuE9OS6k_zAem-SWl2XOcldkQft8tYyv66H-3dQsJexdsEqbYJyJgNYS85Csg5QE2njvWJiM_LZDI10QB8YkNhxUBNNicXnC8TVNw4:1ux3bV:3pNXsaZiCAxezkYSD-o3i7EqT5heNmXGfbkpR7VevY8",
+        "expire_date": "2025-09-26T13:14:17.001Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "gqip8vk3o81nxqm4qqe4l131cezqbm8r",
+    "fields": {
+        "session_data": ".eJxVjMEOwiAQRP-FsyEgsFCP3v0GsiwbqRpISnsy_rs06UGPM-_NvEXEbS1x67zEOYuL0EqcfsuE9OS6k_zAem-SWl2XOcldkQft8tYyv66H-3dQsJexdsEqbYJyJgNYS85Csg5QE2njvWJiM_LZDI10QB8YkNhxUBNNicXnC8TVNw4:1uy28i:k5-RB_sH9yqZ9O8dlPwHk-gDxmEh3qUy4gjglrRMTWc",
+        "expire_date": "2025-09-29T05:52:36.184Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "od5cb3529rnq7ufg1e6nhy02nx9rrppe",
+    "fields": {
+        "session_data": ".eJxVjMEOwiAQRP-FsyEgsFCP3v0GsiwbqRpISnsy_rs06UGPM-_NvEXEbS1x67zEOYuL0EqcfsuE9OS6k_zAem-SWl2XOcldkQft8tYyv66H-3dQsJexdsEqbYJyJgNYS85Csg5QE2njvWJiM_LZDI10QB8YkNhxUBNNicXnC8TVNw4:1uwxFU:ZehQQinb-_UlJAMGgph7q7Vxqfwuo9zLR4XDYWLDfQU",
+        "expire_date": "2025-09-26T06:27:08.601Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "v3dwxbnwnazn7bl78okqb5x9in7h7qyi",
+    "fields": {
+        "session_data": ".eJxVjMEOwiAQRP-FsyEgsFCP3v0GsiwbqRpISnsy_rs06UGPM-_NvEXEbS1x67zEOYuL0EqcfsuE9OS6k_zAem-SWl2XOcldkQft8tYyv66H-3dQsJexdsEqbYJyJgNYS85Csg5QE2njvWJiM_LZDI10QB8YkNhxUBNNicXnC8TVNw4:1uy1vP:0Qq9VU7O0CLlpEuK_2AKcaIFct-y2ywbu3bmzeinN64",
+        "expire_date": "2025-09-29T05:38:51.618Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "ythmphtp8gi5x1ywo96v3n1ltcnzxw2o",
+    "fields": {
+        "session_data": ".eJxVjMEOwiAQRP-FsyEgsFCP3v0GsiwbqRpISnsy_rs06UGPM-_NvEXEbS1x67zEOYuL0EqcfsuE9OS6k_zAem-SWl2XOcldkQft8tYyv66H-3dQsJexdsEqbYJyJgNYS85Csg5QE2njvWJiM_LZDI10QB8YkNhxUBNNicXnC8TVNw4:1uwgpO:OM7_AswJFsgEuqs5LIf5oRm4nAUkH0ssqb15IMU9MHg",
+        "expire_date": "2025-09-25T12:55:06.541Z"
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$pCPuCnj9fNagZ3MjcoJmrP$Wg6taBQutaDxdZB6fqyFghlX1878UfP0gMUA0jwm66Y=",
+        "last_login": "2025-09-15T07:20:03.603Z",
+        "is_superuser": false,
+        "username": "Victoria",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-09-10T13:56:09.057Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$wFLkhlpB58CFkkVyaoGVqS$EjOecKcFCwNjo+aHMPy/1LCYcj/soslAiXOl+UaKASw=",
+        "last_login": "2025-09-15T07:17:56.764Z",
+        "is_superuser": true,
+        "username": "Teddy",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-09-10T13:59:41.365Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$9SJlEx1Ok2tfjrioWU0Ni8$EDdGLNq9C4RvKiGGdnAnjBIpdanlheZeVaB23NefRpk=",
+        "last_login": "2025-09-15T05:38:24.754Z",
+        "is_superuser": false,
+        "username": "TEE",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-09-12T05:11:36.420Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 368,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "ANN K",
+        "charged_to": "Petty Cash",
+        "description": "Opening Balance",
+        "receipt_no": "00",
+        "amount_deposited": "-148014.00",
+        "amount_withdrawn": "0.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "-148014.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 369,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "ANN K",
+        "charged_to": "Petty Cash",
+        "description": "Cash received from DTB",
+        "receipt_no": "00",
+        "amount_deposited": "100000.00",
+        "amount_withdrawn": "0.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "-48014.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 370,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Safaricom ",
+        "charged_to": "Telephone",
+        "description": "Paid for purchase of airtime for Mr. Bhavesh G",
+        "receipt_no": "00",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "10000.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "-58014.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 371,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "David Kosgei",
+        "charged_to": "KCG533J",
+        "description": "Allowance",
+        "receipt_no": "00",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "11000.00",
+        "withdrawal_charges": "100.00",
+        "running_balance": "-69114.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 372,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Naivas Ojijo",
+        "charged_to": "Office Expense",
+        "description": "Paid for purchase of office consumables",
+        "receipt_no": "235298",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "2128.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "-71242.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 373,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Yvonne Mwangi ",
+        "charged_to": "Office Expense",
+        "description": "Paid for purchase of soap for w/shop use",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "650.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "-71892.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 374,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Quickmart Bandari",
+        "charged_to": "Office Expense",
+        "description": "Paid for purchase of office drinking water for Workshop",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "2304.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "-74196.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 375,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Cosmus Mbithuka Munyoli",
+        "charged_to": "KBL388P",
+        "description": "Paid for diff shock bush fitting charges ",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "800.00",
+        "withdrawal_charges": "13.00",
+        "running_balance": "-75009.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 376,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Kenya Ports Authority",
+        "charged_to": "Licenses",
+        "description": "Paid for port pass charges for Alphonce Muia & Fredrick Oginga",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "5000.00",
+        "withdrawal_charges": "34.00",
+        "running_balance": "-80043.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 377,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Edwin Tungwa",
+        "charged_to": "Travelling & Entertainment",
+        "description": "Paid for transport from Changamwe to workshop",
+        "receipt_no": "00",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "200.00",
+        "withdrawal_charges": "7.00",
+        "running_balance": "-80250.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 378,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Dreamline Express Ltd",
+        "charged_to": "Postage & Delivery",
+        "description": "Paid for parcel charges from Mombasa to Nairobi",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "400.00",
+        "withdrawal_charges": "5.00",
+        "running_balance": "-80655.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 379,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Mohamed Yusuf",
+        "charged_to": "KDQ330C",
+        "description": "Paid for airport parking charges",
+        "receipt_no": "00",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "100.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "-80755.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 380,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Abdi Omar",
+        "charged_to": "KCB288X/KCG533J",
+        "description": "Paid for road user charges ",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "13000.00",
+        "withdrawal_charges": "267.00",
+        "running_balance": "-94022.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 381,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Raphael Osodo",
+        "charged_to": "KBR988N/KBT077Z/KBQ722R/KBQ388M/KCG566J",
+        "description": "Paid for loading charges",
+        "receipt_no": "00",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "2500.00",
+        "withdrawal_charges": "33.00",
+        "running_balance": "-96555.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 382,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Titus Mburungu",
+        "charged_to": "KCA787Y",
+        "description": "Paid additional allowance",
+        "receipt_no": "00",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "1000.00",
+        "withdrawal_charges": "13.00",
+        "running_balance": "-97568.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 383,
+    "fields": {
+        "date": "2025-09-10",
+        "received_by": "Pramukh Enterprises (Dhanshyam Solanki)",
+        "charged_to": "Motor Vehicle exp",
+        "description": "Paid for purchase of paper gasket 1mm * 1m",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "1508.00",
+        "withdrawal_charges": "33.00",
+        "running_balance": "-99109.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 384,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Manstone Kitonga",
+        "charged_to": "KBL388P/KCG522J/KCG544J/KCG533J/KCG511J/KBV455L/Motor vehicle exp",
+        "description": "Paid additional allowance",
+        "receipt_no": "NA",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "24500.00",
+        "withdrawal_charges": "108.00",
+        "running_balance": "-123717.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 385,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "David Moyaki",
+        "charged_to": "Office Expense",
+        "description": "Paid for purchase of office consumables",
+        "receipt_no": "NA",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "1000.00",
+        "withdrawal_charges": "13.00",
+        "running_balance": "-124730.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 386,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Elijah Kariuki",
+        "charged_to": "KBT077Z",
+        "description": "Allowance  (Msa - Kpl - Msa)",
+        "receipt_no": "NA",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "11000.00",
+        "withdrawal_charges": "103.00",
+        "running_balance": "-135833.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 387,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Mohamed Yusuf",
+        "charged_to": "KDQ330C",
+        "description": "Paid for airport parking charges",
+        "receipt_no": "NA",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "100.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "-135933.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 388,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Benjamin Kemboi",
+        "charged_to": "KDU122A/KCA2887U/KBT973Q",
+        "description": "Paid additional allowance",
+        "receipt_no": "NA",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "5000.00",
+        "withdrawal_charges": "57.00",
+        "running_balance": "-140990.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 389,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Hamisi Omari",
+        "charged_to": "KBR933T/KBQ722R/KDU133A",
+        "description": "Paid additional allowance",
+        "receipt_no": "NA",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "5000.00",
+        "withdrawal_charges": "57.00",
+        "running_balance": "-146047.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 390,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "James Malaba",
+        "charged_to": "KBT973Q/KCA797Y",
+        "description": "Paid for 1 day parking charges at Malaba",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "760.00",
+        "withdrawal_charges": "13.00",
+        "running_balance": "-146820.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 391,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Pramukh Enterprises (Dhanshyam Solanki)",
+        "charged_to": "Motor Vehicle exp",
+        "description": "Paid for purchase of bolts & nuts with washers size 10*50 /14*50",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "2436.00",
+        "withdrawal_charges": "33.00",
+        "running_balance": "-149289.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 392,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Joseph King'oo",
+        "charged_to": "KCA283U",
+        "description": "Allowance  (Msa - Kpl - Msa)",
+        "receipt_no": "NA",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "11000.00",
+        "withdrawal_charges": "100.00",
+        "running_balance": "-160389.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 393,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Raphael Osodo",
+        "charged_to": "KCG522J/KCA287U/KDN755R/KBT088Z",
+        "description": "Paid for loading charges",
+        "receipt_no": "NA",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "2000.00",
+        "withdrawal_charges": "33.00",
+        "running_balance": "-162422.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 394,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Harrison Maina",
+        "charged_to": "KBQ722R",
+        "description": "Allowance(Msa -Kpl- Msa)",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "11000.00",
+        "withdrawal_charges": "100.00",
+        "running_balance": "-173522.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 395,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Willy Ngala",
+        "charged_to": "KCA281U",
+        "description": "Allowance(Msa -Kpl- Msa)",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "11000.00",
+        "withdrawal_charges": "100.00",
+        "running_balance": "-184622.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 396,
+    "fields": {
+        "date": "2025-09-11",
+        "received_by": "Mutisya Mutuko",
+        "charged_to": "KBR988N",
+        "description": "Allowance(Msa -Kpl- Msa)",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "11000.00",
+        "withdrawal_charges": "100.00",
+        "running_balance": "-195722.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 397,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Naivas",
+        "charged_to": "Office Expense",
+        "description": "Purchase of office milk",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "1398.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "-197120.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 398,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Nyati",
+        "charged_to": "Motor Vehicle expenses",
+        "description": "Paid for Air drier kit",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "2140.00",
+        "withdrawal_charges": "20.00",
+        "running_balance": "-199280.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 399,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Dreamline",
+        "charged_to": "Postage and Delivery",
+        "description": "Paid for Parcel to Mombasa",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "300.00",
+        "withdrawal_charges": "5.00",
+        "running_balance": "-199585.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 400,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Herman Mukabwa",
+        "charged_to": "KBT973Q",
+        "description": "Paid for Parking fees at Kampala 2days",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "800.00",
+        "withdrawal_charges": "13.00",
+        "running_balance": "-200398.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 401,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Ann",
+        "charged_to": "Petty cash",
+        "description": "Received from Stanbic",
+        "receipt_no": "",
+        "amount_deposited": "700000.00",
+        "amount_withdrawn": "0.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "499602.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 402,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Isaac Oyieko",
+        "charged_to": "Travelling & Entertainment",
+        "description": "Paid fare to Dreamline",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "100.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "499502.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 403,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "James Malaba",
+        "charged_to": "KCA181Y",
+        "description": "Paid for parking fees at Malaba 1 day",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "380.00",
+        "withdrawal_charges": "7.00",
+        "running_balance": "499115.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 404,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Chadyline Rutto",
+        "charged_to": "Salary Advance",
+        "description": "Paid advance for September 2025- Chadyline Rutto",
+        "receipt_no": "N/A",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "10000.00",
+        "withdrawal_charges": "90.00",
+        "running_balance": "496955.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 405,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Badar Salim",
+        "charged_to": "Motor Vehicle expenses",
+        "description": "Paid for led tail lamp.led side marking trailer lights blue colour,core wire 10Mts,core cable 30mts",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "26448.00",
+        "withdrawal_charges": "108.00",
+        "running_balance": "470399.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 406,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Edwin Tumo",
+        "charged_to": "KDN755R",
+        "description": "Allowance(Msa -Kpl- Msa)",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "11000.00",
+        "withdrawal_charges": "100.00",
+        "running_balance": "459299.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 407,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Kennedy Odhiambo",
+        "charged_to": "KCG522J",
+        "description": "Allowance(Msa -Kpl- Msa)",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "11000.00",
+        "withdrawal_charges": "100.00",
+        "running_balance": "448199.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 408,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Ibrahim Mhamud-Amatu",
+        "charged_to": "KDU122A",
+        "description": "Paid for Alteration fees",
+        "receipt_no": "N/A",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "750.00",
+        "withdrawal_charges": "13.00",
+        "running_balance": "447436.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 409,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Atieno Sonia",
+        "charged_to": "KBQ722R/KCA787Y/KBT088Z/KBR988N",
+        "description": "Paid additional allowance",
+        "receipt_no": "N/A",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "10000.00",
+        "withdrawal_charges": "90.00",
+        "running_balance": "437346.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 410,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Abdi Omar- Akasha",
+        "charged_to": "KBT077Z,KCA283U,KCA281U,KBR988N,KBQ722R",
+        "description": "Paid Road user ",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "32500.00",
+        "withdrawal_charges": "305.00",
+        "running_balance": "396611.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 411,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Samuel Njoroge",
+        "charged_to": "Suspence A/c",
+        "description": "To be Advanced",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "100000.00",
+        "withdrawal_charges": "0.00",
+        "running_balance": "296611.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 412,
+    "fields": {
+        "date": "2025-09-12",
+        "received_by": "Raphael Osodo",
+        "charged_to": "KBL388P,KDM733K,KBV455L,KCA787Y,KBR768J,KDU133A,KDU233A,KCG544J,KBT973Q,KCA797Y",
+        "description": "Paid Loading charges for 10 Trucks",
+        "receipt_no": "N/A",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "5000.00",
+        "withdrawal_charges": "57.00",
+        "running_balance": "291554.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 413,
+    "fields": {
+        "date": "2025-09-13",
+        "received_by": "Nyati",
+        "charged_to": "Motor Vehicle expenses",
+        "description": "Motor vehicle Expense",
+        "receipt_no": "",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "33877.00",
+        "withdrawal_charges": "83.00",
+        "running_balance": "257594.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 414,
+    "fields": {
+        "date": "2025-09-13",
+        "received_by": "Badar Salim",
+        "charged_to": "Motor Vehicle expenses",
+        "description": "Paid for motor Vehicle Expenses",
+        "receipt_no": "RTF",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "10000.00",
+        "withdrawal_charges": "90.00",
+        "running_balance": "247504.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 415,
+    "fields": {
+        "date": "2025-09-13",
+        "received_by": "Harrison Njogu",
+        "charged_to": "Motor Vehicle expenses",
+        "description": "Paid for Labour charges",
+        "receipt_no": "N/A",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "1000.00",
+        "withdrawal_charges": "13.00",
+        "running_balance": "246491.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 416,
+    "fields": {
+        "date": "2025-09-13",
+        "received_by": "Dennis Kisove",
+        "charged_to": "Motor Vehicle expenses",
+        "description": "Paid for Labour charges",
+        "receipt_no": "N/A",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "1000.00",
+        "withdrawal_charges": "13.00",
+        "running_balance": "245478.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 417,
+    "fields": {
+        "date": "2025-09-13",
+        "received_by": "Nicodemus Andama",
+        "charged_to": "KDM733K",
+        "description": "Allowance(Msa -Kpl- Msa)",
+        "receipt_no": "N/A",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "11000.00",
+        "withdrawal_charges": "100.00",
+        "running_balance": "234378.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+},
+{
+    "model": "cashflow.expense",
+    "pk": 418,
+    "fields": {
+        "date": "2025-09-13",
+        "received_by": "Kennedy Mwangi",
+        "charged_to": "KBV455L",
+        "description": "Allowance(Msa -Kpl- Msa)",
+        "receipt_no": "N",
+        "amount_deposited": "0.00",
+        "amount_withdrawn": "11000.00",
+        "withdrawal_charges": "100.00",
+        "running_balance": "223278.00",
+        "status": "Approved",
+        "uploaded_by": [
+            "Victoria"
+        ],
+        "approved_by": null,
+        "approved_at": null
+    }
+}
+]

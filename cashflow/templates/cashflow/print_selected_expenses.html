@@ -1,0 +1,50 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Print Selected Approved Expenses</title>
+    <style>
+        @media print {
+            .page-break { page-break-after: always; }
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+
+{% if expenses %}
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Received By</th>
+                <th>Charged To</th>
+                <th>Description</th>
+                <th>Deposited</th>
+                <th>Withdrawn</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.date|date:"d/m/Y" }}</td>
+                    <td>{{ expense.received_by }}</td>
+                    <td>{{ expense.charged_to }}</td>
+                    <td>{{ expense.description }}</td>
+                    <td>{{ expense.amount_deposited|floatformat:0 }}</td>
+                    <td>{{ expense.amount_withdrawn|floatformat:0 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        window.onload = function() { window.print(); }
+    </script>
+{% else %}
+    <h2>No expenses selected to print.</h2>
+{% endif %}
+
+</body>
+</html>
