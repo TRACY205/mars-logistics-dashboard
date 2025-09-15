@@ -42,6 +42,11 @@ urlpatterns = [
 
     # -------------------- Print All Approved --------------------
     path("expenses/print-all-approved/", views.print_all_approved, name="print_all_approved"),
+        path(
+        "expenses/print-selected/",
+        views.print_selected_expenses,
+        name="print_selected_expenses"
+    ),
 ]
 
 

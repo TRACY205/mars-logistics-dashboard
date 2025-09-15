@@ -528,3 +528,20 @@ def print_all_approved(request):
     return render(request, 'cashflow/print_all_approved.html', {
         'expenses': approved_expenses,
     })
+
+
+from django.shortcuts import render
+from .models import Expense
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def print_selected_expenses(request):
+    if request.method == "POST":
+        selected_ids = request.POST.getlist("selected_expenses")  # list of IDs
+        expenses = Expense.objects.filter(id__in=selected_ids)
+    else:
+        expenses = []
+
+    return render(request, "cashflow/print_selected_expenses.html", {
+        "expenses": expenses
+    })
