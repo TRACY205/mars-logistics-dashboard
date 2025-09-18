@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Print Selected Expenses</title>
+</head>
+<body>
+    <h1>Selected Expenses</h1>
+
+    {% if expenses %}
+        <table border="1">
+            <tr>
+                <th>Date</th>
+                <th>Charged To</th>
+                <th>Description</th>
+                <th>Amount Withdrawn</th>
+                <th>Status</th>
+            </tr>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.date }}</td>
+                <td>{{ expense.charged_to }}</td>
+                <td>{{ expense.description }}</td>
+                <td>{{ expense.amount_withdrawn }}</td>
+                <td>{{ expense.status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No expenses selected.</p>
+    {% endif %}
+</body>
+</html>

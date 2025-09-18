@@ -13,6 +13,12 @@
         <form method="post" class="space-y-5">
             {% csrf_token %}
 
+            <!-- Date -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                {{ form.date }}
+            </div>
+
             <!-- Received By -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Received By</label>
@@ -31,6 +37,37 @@
                 {{ form.description }}
             </div>
 
+            <!-- Receipt No -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Receipt No.</label>
+                {{ form.receipt_no }}
+            </div>
+
+            <!-- Amount Deposited -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Amount Deposited</label>
+                {{ form.amount_deposited }}
+            </div>
+
+            <!-- Amount Withdrawn -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Amount Withdrawn</label>
+                {{ form.amount_withdrawn }}
+            </div>
+
+            <!-- Withdrawal Charges -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Withdrawal Charges</label>
+                {{ form.withdrawal_charges }}
+            </div>
+
+            <!-- Running Balance (Read-Only) -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Running Balance</label>
+                <input type="number" class="w-full p-2 border rounded-lg bg-gray-100" 
+                       value="{{ expense.running_balance }}" readonly>
+            </div>
+
             <!-- Buttons -->
             <div class="flex gap-4">
                 <button type="submit" 
@@ -47,5 +84,3 @@
 
 </body>
 </html>
-
-

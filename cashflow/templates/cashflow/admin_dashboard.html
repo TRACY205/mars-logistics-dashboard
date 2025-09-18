@@ -9,8 +9,7 @@
 
   <!-- Header -->
   <header class="w-screen bg-gradient-to-r from-green-500 via-teal-400 to-green-300 text-white py-6 shadow-2xl rounded-b-3xl">
-   <div class="flex justify-between items-center w-full px-2">
-      <!-- Left: Title -->
+    <div class="flex justify-between items-center w-full px-6">
       <div class="flex items-center gap-4">
         <h1 class="text-3xl font-extrabold tracking-wider uppercase drop-shadow-lg">
           Mars Logistics - Admin Dashboard
@@ -19,13 +18,8 @@
           Admin Panel
         </span>
       </div>
-
-      <!-- Right: User Info -->
       <div class="flex items-center gap-6">
         <span class="text-lg font-medium flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A5 5 0 0112 15a5 5 0 016.879 2.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
           Hello, {{ request.user.username }}
         </span>
         <a href="{% url 'logout' %}" class="px-5 py-2 bg-white text-green-700 font-semibold rounded-full hover:bg-gray-100 shadow-md transition-all hover:scale-105">
@@ -35,133 +29,101 @@
     </div>
   </header>
 
-  <!-- Main content -->
+  <!-- Main Content -->
   <main class="p-6">
-    <!-- Top bar with title + Add Expense -->
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-3xl font-bold text-gray-700">Expenses Overview</h2>
 
-      <!-- Add Expense Dropdown -->
-      <div class="relative">
-        <button id="addExpenseBtn" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl shadow-md transition flex items-center gap-2">
-          + Add Expense ▾
+    <h2 class="text-3xl font-bold text-gray-700 mb-4">Expenses Overview</h2>
+
+    <!-- Delete Selected Form -->
+    <form method="post" action="{% url 'delete_selected_expenses' %}">
+      {% csrf_token %}
+      
+      <div class="overflow-x-auto rounded-lg border border-gray-300 shadow-lg">
+        <table class="min-w-full border-collapse">
+          <thead class="bg-blue-600 text-white">
+            <tr>
+              <th class="border px-4 py-2 text-center">
+                <input type="checkbox" id="select-all">
+              </th>
+              <th class="border px-4 py-2">Date</th>
+              <th class="border px-4 py-2">Received By</th>
+              <th class="border px-4 py-2">Charged To</th>
+              <th class="border px-4 py-2">Description</th>
+              <th class="border px-4 py-2">Receipt No.</th>
+              <th class="border px-4 py-2">Deposited</th>
+              <th class="border px-4 py-2">Withdrawn</th>
+              <th class="border px-4 py-2">Charges</th>
+              <th class="border px-4 py-2">Balance</th>
+              <th class="border px-4 py-2">Status</th>
+              <th class="border px-4 py-2 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for expense in expenses %}
+            <tr class="{% cycle 'bg-white' 'bg-gray-50' %} hover:bg-yellow-100">
+              <!-- Checkbox -->
+              <td class="border px-4 py-2 text-center">
+                <input type="checkbox" name="selected_expenses" value="{{ expense.id }}">
+              </td>
+              <td class="border px-4 py-2">{{ expense.date|date:"d/m/Y" }}</td>
+              <td class="border px-4 py-2">{{ expense.received_by }}</td>
+              <td class="border px-4 py-2">{{ expense.charged_to }}</td>
+              <td class="border px-4 py-2">{{ expense.description }}</td>
+              <td class="border px-4 py-2">{{ expense.receipt_no }}</td>
+              <td class="border px-4 py-2 text-green-600 font-semibold">{{ expense.amount_deposited|floatformat:0 }}</td>
+              <td class="border px-4 py-2 text-red-600 font-semibold">{{ expense.amount_withdrawn|floatformat:0 }}</td>
+              <td class="border px-4 py-2 text-orange-500 font-semibold">{{ expense.withdrawal_charges|floatformat:0 }}</td>
+              <td class="border px-4 py-2 font-medium">{{ expense.running_balance|floatformat:0 }}</td>
+              <td class="border px-4 py-2 text-center">
+                {% if expense.status|lower == 'approved' %}
+                    <span class="px-2 py-1 bg-green-200 text-green-800 rounded-full text-sm font-semibold">Approved</span>
+                {% elif expense.status|lower == 'pending' %}
+                    <span class="px-2 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm font-semibold">Pending</span>
+                {% elif expense.status|lower == 'rejected' %}
+                    <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm font-semibold">Rejected</span>
+                {% else %}
+                    <span class="px-2 py-1 bg-gray-200 text-gray-600 rounded-full text-sm font-semibold">Locked</span>
+                {% endif %}
+              </td>
+              <!-- Action Buttons -->
+              <td class="border px-4 py-2 text-center flex flex-col gap-1 items-center">
+                {% if expense.status|lower != "approved" %}
+                  <a href="{% url 'update_expense_status' expense.id 'approve' %}" 
+                     class="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-xs font-semibold w-full text-center">
+                     Approve
+                  </a>
+                {% endif %}
+                {% if expense.status|lower != "rejected" %}
+                  <a href="{% url 'update_expense_status' expense.id 'reject' %}" 
+                     class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs font-semibold w-full text-center">
+                     Reject
+                  </a>
+                {% endif %}
+                <a href="{% url 'edit_expense' expense.id %}" 
+                   class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs font-semibold w-full text-center">
+                   Edit
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4 flex gap-4">
+        <button type="submit" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md">
+          Delete Selected
         </button>
-        <div id="addExpenseMenu" class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg hidden z-50">
-          <a href="{% url 'add_expense_admin' %}" class="block px-4 py-2 hover:bg-gray-100 transition">Add Expense</a>
-          <a href="{% url 'upload_expense' %}" class="block px-4 py-2 hover:bg-gray-100 transition">Upload Expenses</a>
-        </div>
       </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="mb-4 flex flex-wrap gap-4 items-end">
-      <form method="get" class="flex flex-wrap gap-4 items-end">
-        <!-- Charged To -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Charged To</label>
-          <input type="text" name="charged_to" value="{{ charged_to }}" class="mt-1 px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-        </div>
-
-        <!-- Status -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Status</label>
-          <select name="status" class="mt-1 px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-            <option value="">All</option>
-            <option value="Approved" {% if status == 'Approved' %}selected{% endif %}>Approved</option>
-            <option value="Pending" {% if status == 'Pending' %}selected{% endif %}>Pending</option>
-            <option value="Rejected" {% if status == 'Rejected' %}selected{% endif %}>Rejected</option>
-          </select>
-        </div>
-
-        <!-- Filter Button -->
-        <div>
-          <button type="submit" class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 shadow-md">Filter</button>
-        </div>
-      </form>
-    </div>
-
-    <!-- Expenses Table -->
-    <table class="min-w-full border-collapse border border-gray-300 shadow-lg rounded-lg overflow-hidden">
-      <thead class="bg-blue-600 text-white">
-        <tr>
-          <th class="border px-4 py-2">Date</th>
-          <th class="border px-4 py-2">Received By</th>
-          <th class="border px-4 py-2">Charged To</th>
-          <th class="border px-4 py-2">Description</th>
-          <th class="border px-4 py-2">Receipt No.</th>
-          <th class="border px-4 py-2">Amount Deposited</th>
-          <th class="border px-4 py-2">Amount Withdrawn</th>
-          <th class="border px-4 py-2">Withdrawal Charges</th>
-          <th class="border px-4 py-2">Running Balance</th>
-          <th class="border px-4 py-2">Status</th>
-          <th class="border px-4 py-2">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for expense in expenses %}
-        <tr class="{% cycle 'bg-white' 'bg-gray-50' %} hover:bg-yellow-100">
-          <td class="border px-4 py-2">{{ expense.date|date:"d/m/Y" }}</td>
-          <td class="border px-4 py-2">{{ expense.received_by }}</td>
-          <td class="border px-4 py-2">{{ expense.charged_to }}</td>
-          <td class="border px-4 py-2">{{ expense.description }}</td>
-          <td class="border px-4 py-2">{{ expense.receipt_no }}</td>
-          <td class="border px-4 py-2">{{ expense.amount_deposited|floatformat:0 }}</td>
-          <td class="border px-4 py-2">{{ expense.amount_withdrawn|floatformat:0 }}</td>
-          <td class="border px-4 py-2">{{ expense.withdrawal_charges|floatformat:0 }}</td>
-          <td class="border px-4 py-2">{{ expense.running_balance|floatformat:0 }}</td>
-          <td class="border px-4 py-2">
-            <span class="{% if expense.status == 'Approved' %}text-green-600 font-bold
-                          {% elif expense.status == 'Rejected' %}text-red-600 font-bold
-                          {% else %}text-yellow-600 font-bold{% endif %}">
-              {{ expense.status }}
-            </span>
-          </td>
-          <td class="border px-4 py-2">
-            {% if expense.status == "Pending" %}
-              <div class="flex gap-2">
-                <a href="{% url 'update_expense_status' expense.id 'approve' %}" 
-                   class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">
-                   Approve
-                </a>
-                <a href="{% url 'update_expense_status' expense.id 'reject' %}" 
-                   class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
-                   Reject
-                </a>
-              </div>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <!-- Totals -->
-    <div class="mt-6 bg-white p-4 rounded-lg shadow-md flex justify-end gap-8">
-      <div class="text-right">
-        <p class="text-gray-700 font-semibold">
-          Total Deposited: <span class="text-green-600">{{ totals.total_deposited|floatformat:0 }}</span>
-        </p>
-        <p class="text-gray-700 font-semibold">
-          Total Withdrawn: <span class="text-red-600">{{ totals.total_withdrawn|floatformat:0 }}</span>
-        </p>
-        <p class="text-gray-700 font-semibold">
-          Total Charges: <span class="text-orange-500">{{ totals.total_charges|floatformat:0 }}</span>
-        </p>
-      </div>
-    </div>
+    </form>
   </main>
 
-  <!-- JS for Add Expense Dropdown -->
+  <!-- JS for Select All -->
   <script>
-    const btn = document.getElementById('addExpenseBtn');
-    const menu = document.getElementById('addExpenseMenu');
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-    });
-    window.addEventListener('click', (e) => {
-      if (!btn.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.add('hidden');
-      }
+    const selectAll = document.getElementById('select-all');
+    selectAll.addEventListener('change', function() {
+      const checkboxes = document.querySelectorAll('input[name="selected_expenses"]');
+      checkboxes.forEach(cb => cb.checked = this.checked);
     });
   </script>
 

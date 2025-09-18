@@ -7,149 +7,119 @@
   <meta charset="UTF-8">
   <title>Petty Cash Summary</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      font-size: 14px; /* increased font */
-      margin: 20px;
-    }
-
-    /* Outer bold border */
-    .report-container {
-      border: 3px solid black;
-      padding: 20px;
-      margin: 10px auto;
+    body { font-family: Arial, sans-serif; font-size: 13px; margin: 20px; }
+    
+    .report-container { 
+      border: 3px solid black; 
+      padding: 15px; 
+      margin: 10px auto; 
     }
 
     /* Header */
     .header {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-between; /* push logo left, balance right */
       align-items: flex-start;
       margin-bottom: 15px;
     }
 
     .logo {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .logo img {
-      height: 100px;
-      width: auto;
-      margin-bottom: 8px;
-    }
-
-    .report-date {
-      font-size: 14px; /* bigger font */
-      font-weight: bold;
-      margin-top: 5px;
-    }
-
-    .balance-top {
-      text-align: right;
-      font-weight: bold;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-
-    /* Table */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 14px; /* increased font */
-    }
-
-    th, td {
-      border: 1px solid black;
-      padding: 6px 8px;
       text-align: left;
     }
 
-    th {
-      text-align: center;
-      background: #f2f2f2;
+    .logo img { 
+      height: 80px; 
+      width: auto; 
+      display: block; 
+      margin-bottom: 5px; 
     }
 
-    tfoot td {
+    .logo div { font-size: 12px; }
+
+    /* Balance on top right */
+    .balance-top {
       font-weight: bold;
-      text-align: right;
-      background: #f9f5f5;
-      padding: 12px 6px;
+      font-size: 14px;
+      padding-right: 0;
     }
 
-    .number-cell {
-      text-align: right;
+    /* Table */
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      table-layout: fixed; 
+      word-wrap: break-word; 
     }
+
+    th, td { 
+      border: 1px solid black; 
+      padding: 4px 6px; 
+      font-size: 12px; 
+    }
+
+    th { text-align: center; background: #f2f2f2; }
+
+    tfoot td { 
+      font-weight: bold; 
+      text-align: right; 
+      background: #f9f5f5; 
+      padding: 12px 6px; 
+    }
+
+    .number-cell { text-align: right; }
 
     /* Footer */
-    .footer {
-      margin-top: 60px;
-      font-size: 14px;
+    .footer { margin-top: 30px; font-size: 14px; }
+
+    /* Controls */
+    .controls { margin-bottom: 15px; }
+    .controls form { 
+      display: inline-block; 
+      background: #f9f9f9; 
+      padding: 8px 12px; 
+      border: 1px solid #ddd; 
+      border-radius: 10px; 
+      margin-right: 10px; 
     }
 
-    .footer span {
-      display: inline-block;
-      margin-right: 30px;
+    .controls input[type="date"] { 
+      padding: 4px 6px; 
+      border: 1px solid #bbb; 
+      border-radius: 6px; 
+      font-size: 12px; 
     }
 
-    /* Filter controls */
-    .controls {
-      margin-bottom: 15px;
+    .controls button { 
+      background: #4CAF50; 
+      border: none; 
+      color: white; 
+      padding: 6px 14px; 
+      margin-left: 5px; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      font-size: 12px; 
     }
 
-    .controls form {
-      display: inline-block;
-      background: #f9f9f9;
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      margin-right: 10px;
-    }
-
-    .controls input[type="date"] {
-      padding: 4px 6px;
-      border: 1px solid #bbb;
-      border-radius: 6px;
-      font-size: 12px;
-    }
-
-    .controls button {
-      background: #4CAF50;
-      border: none;
-      color: white;
-      padding: 6px 14px;
-      margin-left: 5px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    .controls button:hover {
-      background: #45a049;
-    }
-
-    /* Print styles */
-    @media print {
-      .buttons, .controls { display: none; }
-      @page { size: A4 landscape; margin: 10mm; }
-    }
+    .controls button:hover { background: #45a049; }
 
     /* Buttons */
-    .buttons button {
-      background: #2196F3;
-      border: none;
-      color: white;
-      padding: 8px 16px;
-      margin-right: 6px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px; /* increased font */
+    .buttons { margin-top: 15px; }
+    .buttons button { 
+      background: #2196F3; 
+      border: none; 
+      color: white; 
+      padding: 8px 16px; 
+      margin-right: 6px; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      font-size: 13px; 
     }
 
-    .buttons button:hover {
-      background: #0b7dda;
+    .buttons button:hover { background: #0b7dda; }
+
+    @media print { 
+      .buttons, .controls { display: none; } 
+      @page { size: A4 landscape; margin: 10mm; } 
     }
   </style>
 </head>
@@ -170,17 +140,28 @@
   </div>
 
   <div class="report-container">
+
     <!-- Header -->
     <div class="header">
       <div class="logo">
-        <img src="{% static 'cashflow/images/mars_logo1.jpg' %}" alt="Mars Logo">
-        <div class="report-date">
-          Date: {{ today|date:"d/m/Y" }}<br>
-          For {{ start_date|date:"d/m/Y" }}{% if start_date != end_date %} through {{ end_date|date:"d/m/Y" }}{% endif %}
+        <img src="{% static 'cashflow/images/mars_logo1.jpg' %}" alt="Logo">
+        <div>
+          {% if day %}
+            Date: {{ day|date:"d/m/Y" }}
+          {% elif start_date and end_date %}
+            {% if start_date == end_date %}
+              Date: {{ start_date|date:"d/m/Y" }}
+            {% else %}
+              From: {{ start_date|date:"d/m/Y" }} through {{ end_date|date:"d/m/Y" }}
+            {% endif %}
+          {% else %}
+            Date: __________________
+          {% endif %}
         </div>
       </div>
+
       <div class="balance-top">
-        Balance: {% if expenses %}{{ expenses.last.running_balance|floatformat:0|intcomma }}{% else %}0{% endif %}
+        Balance: {{ last_balance|floatformat:0|intcomma }}
       </div>
     </div>
 
@@ -188,7 +169,7 @@
     <table>
       <thead>
         <tr>
-          <th>Date</th> <!-- new column -->
+          <th>Date</th>
           <th>Received By</th>
           <th>Charged To</th>
           <th>Description</th>
@@ -202,7 +183,7 @@
       <tbody>
         {% for exp in expenses %}
         <tr>
-          <td>{{ exp.date|date:"d/m/Y" }}</td> <!-- show date -->
+          <td>{{ exp.date|date:"d/m/Y" }}</td>
           <td>{{ exp.received_by|default:"__________________" }}</td>
           <td>{{ exp.charged_to }}</td>
           <td>{{ exp.description }}</td>
@@ -224,16 +205,17 @@
           <td class="number-cell">{{ totals.deposited|floatformat:0|intcomma }}</td>
           <td class="number-cell">{{ totals.withdrawn|floatformat:0|intcomma }}</td>
           <td class="number-cell">{{ totals.withdrawal_charges|floatformat:0|intcomma }}</td>
-          <td class="number-cell"></td>
+          <td class="number-cell">{{ last_balance|floatformat:0|intcomma }}</td>
         </tr>
       </tfoot>
     </table>
 
     <!-- Footer -->
     <div class="footer">
-      <span>Prepared by: <u>{{ prepared_by }}</u></span>
-      <span>Approved by: <u>{% if approved_by %}{{ approved_by }}{% else %}__________________{% endif %}</u></span>
+      Prepared by: <u>{{ prepared_by }}</u> &nbsp;&nbsp;&nbsp;&nbsp;
+      Approved by: <u>{% if approved_by %}{{ approved_by }}{% else %}__________________{% endif %}</u>
     </div>
+
   </div>
 
   <!-- Action buttons -->

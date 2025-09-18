@@ -1,0 +1,62 @@
+{% extends "cashflow/base.html" %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-2xl font-bold text-center mb-6">Approved Expenses</h1>
+
+    {% if error %}
+        <p class="text-red-600 mb-4">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'print_selected_expenses' %}">
+        {% csrf_token %}
+        <div class="overflow-x-auto shadow-lg rounded-lg bg-white">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-teal-100 text-gray-800">
+                    <tr>
+                        <th class="border px-4 py-2 text-center">
+                            <input type="checkbox" id="selectAll" onclick="toggleAll(this)">
+                        </th>
+                        <th class="border px-4 py-2">Date</th>
+                        <th class="border px-4 py-2">Received By</th>
+                        <th class="border px-4 py-2">Charged To</th>
+                        <th class="border px-4 py-2">Description</th>
+                        <th class="border px-4 py-2 text-right">Deposited</th>
+                        <th class="border px-4 py-2 text-right">Withdrawn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="border px-4 py-2 text-center">
+                            <input type="checkbox" name="selected_expenses" value="{{ expense.id }}">
+                        </td>
+                        <td class="border px-4 py-2">{{ expense.date|date:"d/m/Y" }}</td>
+                        <td class="border px-4 py-2">{{ expense.received_by }}</td>
+                        <td class="border px-4 py-2">{{ expense.charged_to }}</td>
+                        <td class="border px-4 py-2">{{ expense.description }}</td>
+                        <td class="border px-4 py-2 text-right text-green-600">{{ expense.amount_deposited|floatformat:0 }}</td>
+                        <td class="border px-4 py-2 text-right text-red-600">{{ expense.amount_withdrawn|floatformat:0 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded">
+                Print Selected
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleAll(source) {
+        const checkboxes = document.getElementsByName('selected_expenses');
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
+{% endblock %}

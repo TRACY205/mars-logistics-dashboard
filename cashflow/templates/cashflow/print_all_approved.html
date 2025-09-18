@@ -1,30 +1,68 @@
-{% load humanize %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Print All Approved Expenses</title>
-    <style>
-        @media print {
-            .page-break { page-break-after: always; }
+{% extends "cashflow/base.html" %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-2xl font-bold text-center mb-6">
+        Approved Expenses
+    </h1>
+
+    <!-- Expenses Table with checkboxes -->
+    <form method="post" action="{% url 'print_selected_expenses' %}" target="_blank">
+        {% csrf_token %}
+        <div class="overflow-x-auto shadow-lg rounded-lg bg-white">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-teal-100 text-gray-800">
+                    <tr>
+                        <th class="border px-4 py-2 text-center font-semibold uppercase text-sm">
+                            <input type="checkbox" id="selectAll" onclick="toggleAll(this)">
+                        </th>
+                        <th class="border px-4 py-2 text-left font-semibold uppercase text-sm">Date</th>
+                        <th class="border px-4 py-2 text-left font-semibold uppercase text-sm">Received By</th>
+                        <th class="border px-4 py-2 text-left font-semibold uppercase text-sm">Charged To</th>
+                        <th class="border px-4 py-2 text-left font-semibold uppercase text-sm">Description</th>
+                        <th class="border px-4 py-2 text-right font-semibold uppercase text-sm">Deposited</th>
+                        <th class="border px-4 py-2 text-right font-semibold uppercase text-sm">Withdrawn</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    {% for expense in expenses %}
+                        <tr class="hover:bg-gray-50 transition duration-200">
+                            <td class="px-4 py-2 text-center">
+                                <input type="checkbox" name="selected_expenses" value="{{ expense.id }}">
+                            </td>
+                            <td class="px-4 py-2">{{ expense.date|date:"d/m/Y" }}</td>
+                            <td class="px-4 py-2">{{ expense.received_by }}</td>
+                            <td class="px-4 py-2">{{ expense.charged_to }}</td>
+                            <td class="px-4 py-2">{{ expense.description }}</td>
+                            <td class="px-4 py-2 text-right text-green-600">{{ expense.amount_deposited|floatformat:0 }}</td>
+                            <td class="px-4 py-2 text-right text-red-600">{{ expense.amount_withdrawn|floatformat:0 }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="px-4 py-6 text-center text-gray-400 font-medium">
+                                No approved expenses found.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Print Selected Button -->
+        <div class="text-center mt-4">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-full shadow">
+                🖨️ Print Selected
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleAll(source) {
+        const checkboxes = document.getElementsByName('selected_expenses');
+        for(let i=0; i<checkboxes.length; i++) {
+            checkboxes[i].checked = source.checked;
         }
-    </style>
-</head>
-<body>
-
-{% if expenses %}
-    {% for expense in expenses %}
-        {% include 'cashflow/print_expense.html' with expense=expense total_outgoing=expense.amount_withdrawn|add:expense.withdrawal_charges %}
-        <div class="page-break"></div>
-    {% endfor %}
-
-    <script>
-        window.onload = function() {
-            window.print();
-        };
-    </script>
-{% else %}
-    <h2>No approved expenses to print.</h2>
-{% endif %}
-
-</body>
-</html>
+    }
+</script>
+{% endblock %}

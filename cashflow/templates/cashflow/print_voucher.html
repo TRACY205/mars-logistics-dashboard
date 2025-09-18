@@ -1,0 +1,256 @@
+{% load humanize %}
+{% load number_to_words %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Petty Cash Voucher</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      margin: 0;
+      padding: 10px;
+    }
+    .voucher {
+      border: 2px solid #333; 
+      padding: 15px;
+      width: 100%;
+      max-width: 1000px;
+      box-sizing: border-box;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+    .voucher-title {
+      font-size: 15px;        
+      font-weight: bold;       
+      margin-bottom: 5px;      
+      color: #000000;          
+      letter-spacing: 1px;     
+      margin-left: 50px; 
+    }
+    .row {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    .ac-wrapper {
+      display: flex;
+      border: 2px solid #000000; 
+      border-radius: 8px;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .ac-box {
+      width: 70%;
+      padding: 10px;
+      box-sizing: border-box;
+      min-height: 260px;
+      border-right: 1px solid #030303; 
+      position: relative;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      font-size: 16px;
+    }
+    .ac-title {
+      font-weight: bold;
+      border-bottom: 2px solid #333;
+      width: 100%;         
+      box-sizing: border-box;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    .receipt-line {
+    margin-top: 60px;
+    font-weight: normal;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 25px; /* pushes the right element inward */
+}
+
+    .shs-inline {
+    margin-top: 70px; /* increase to move down */
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 18px;
+}
+
+    .total-inside {
+      position: absolute;
+      bottom: 10px;
+      right: 12px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .amount-box td.transaction-cell {
+      vertical-align: top;   
+      padding-top: 4px;      
+    }
+    .amount-box {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+    }
+    .amount-box table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      height: 100%;
+      table-layout: fixed;
+      word-wrap: break-word;
+      font-size: 16px;
+    }
+    .amount-box th, .amount-box td {
+      border: none;
+      font-size: 16px;
+      padding: 10px;
+    }
+    .amount-box thead th,
+    .amount-box tbody tr:first-child td {
+      border-top: 2px solid #333;
+    }
+    .amount-box tfoot td {
+      border-top: 2px solid #333;
+      font-weight: bold;
+      padding-bottom: 8px;
+    }
+    .amount-box td:first-child, .amount-box th:first-child {
+      border-right: 2px solid #333;
+      border-left: 2px solid #333;
+      width: 25%;
+      padding-top: 0px;  
+    }
+    .amount-box td:last-child, .amount-box th:last-child {
+      border-right: 2px solid #333;
+      width: 3%;
+    }
+
+    /* Footer styling */
+    .footer {
+      font-size: 22px; 
+      margin-top: 60px;
+      width: 100%;
+    }
+    .footer-flex {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .footer-flex div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .footer-flex div span {
+      margin-top: 15px;
+    }
+
+    .buttons { 
+      margin-top: 20px; 
+    }
+    .buttons button {
+      padding: 10px 20px;
+      margin-right: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background: #f2f2f2;
+    }
+    @media print {
+      .buttons { display: none; }
+      @page { size: A6 landscape; margin: 5mm; }
+      body { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="voucher">
+    <!-- Header -->
+    <div class="header">
+      <img src="{% static 'cashflow/images/mars_logo1.jpg' %}" alt="Mars Logo" style="height:150px; width:290px;">
+      <div class="voucher-title">Petty Cash Voucher No. {{ expense.voucher_no }}</div>
+      <div style="margin-left:auto; font-size:16px;">Date: {{ expense.date|date:"d/m/Y" }}</div>
+    </div>
+
+    <!-- Main Row -->
+    <div class="row">
+      <div class="ac-wrapper">
+        <div class="ac-box">
+          <!-- Account Title -->
+          <div class="ac-title">A/C: {{ expense.charged_to }}</div>
+          
+          <!-- Description -->
+          {{ expense.description }}
+          
+          <!-- Transaction Charges + Receipt No on same line -->
+          <div class="receipt-line">
+            <span>Transaction Charges:</span>
+            <span> {{ expense.receipt_no }}</span>
+          </div>
+          
+          <div class="shs-inline">Shs. {{ total_outgoing|number_to_words }}</div>
+          <div class="total-inside">TOTAL:</div>
+        </div>
+
+        <!-- Amount Box -->
+        <div class="amount-box">
+          <table>
+            <thead>
+              <tr><th>Shs.</th><th>Cts.</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ expense.amount_withdrawn|floatformat:0|intcomma }}</td>
+                <td>{{ expense.amount_withdrawn|floatformat:2|stringformat:"s"|slice:"-2:" }}</td>
+              </tr>
+              <tr>
+                <td class="transaction-cell">{{ expense.withdrawal_charges|floatformat:0|intcomma }}</td>
+                <td class="transaction-cell">{{ expense.withdrawal_charges|floatformat:2|stringformat:"s"|slice:"-2:" }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>{{ total_outgoing|floatformat:0|intcomma }}</td>
+                <td>{{ total_outgoing|floatformat:2|stringformat:"s"|slice:"-2:" }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-flex">
+        <div>
+          <span>Prepared by: {{ request.user.username }}</span>
+          <span>Checked by: __________________</span>
+          <span>Authorised by: _______________</span>
+        </div>
+        <div>
+          <span>Received By: {{ expense.received_by|default:"__________________" }}</span>
+          <span>SIGNATURE OF RECIPIENT: __________________</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+      <button onclick="window.print()">🖨️ Print</button>
+      <button onclick="window.location.href='/dashboard/'">⬅️ Back to Dashboard</button>
+    </div>
+  </div>
+</body>
+</html>
