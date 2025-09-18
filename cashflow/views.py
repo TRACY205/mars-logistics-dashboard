@@ -402,12 +402,10 @@ def admin_view_expenses(request):
         "status_filter": status_filter,
     })
 
-@login_required
-# views.py
 
-
-
-
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Expense
+from .forms import ExpenseForm
 
 def edit_expense(request, expense_id):
     expense = get_object_or_404(Expense, id=expense_id)
@@ -416,11 +414,21 @@ def edit_expense(request, expense_id):
         form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
             form.save()
-            return redirect("user_dashboard")
+            # Redirect depending on user type
+            if request.user.is_staff:  # Admin
+                return redirect('admin_dashboard')
+            else:  # Regular user
+                return redirect('user_dashboard')
+        else:
+            print(form.errors)  # Debugging: shows why save fails
     else:
         form = ExpenseForm(instance=expense)
 
-    return render(request, "cashflow/edit_expense.html", {"form": form})
+    return render(request, 'cashflow/edit_expense.html', {
+        'form': form,
+        'expense': expense,  # Pass expense to show read-only fields like running_balance
+    })
+
 
 
 
@@ -443,52 +451,61 @@ def voucher_view(request, voucher_id):
         "total_shs": totals["total_shs"] or 0,
         "total_cts": totals["total_cts"] or 0,
     })
+
+
+
 from django.shortcuts import render
 from .models import Expense
 from django.db.models import Sum
-from django.utils import timezone
+from datetime import datetime
 
 def pettycash_summary(request):
-    # Get filter dates from GET params
-    day = request.GET.get('day')
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
+    day_str = request.GET.get('day')
+    start_date_str = request.GET.get('start_date')
+    end_date_str = request.GET.get('end_date')
 
-    # Default dates if not provided
-    today = timezone.now().date()
-    if not start_date:
-        start_date = today
-    if not end_date:
-        end_date = today
+    day = start_date = end_date = None
 
-    # Filter expenses
-    expenses = Expense.objects.filter(date__range=[start_date, end_date]).order_by('date')
+    # Convert strings to date objects
+    try:
+        if day_str:
+            day = datetime.strptime(day_str, "%Y-%m-%d").date()
+        if start_date_str:
+            start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+        if end_date_str:
+            end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+    except ValueError:
+        # invalid date format, ignore
+        pass
+
+    # Fetch expenses
+    expenses = Expense.objects.all()
+
+    if day:
+        expenses = expenses.filter(date=day)
+    elif start_date and end_date:
+        expenses = expenses.filter(date__range=[start_date, end_date])
 
     # Totals
-    totals = {
-        'deposited': expenses.aggregate(Sum('amount_deposited'))['amount_deposited__sum'] or 0,
-        'withdrawn': expenses.aggregate(Sum('amount_withdrawn'))['amount_withdrawn__sum'] or 0,
-        'withdrawal_charges': expenses.aggregate(Sum('withdrawal_charges'))['withdrawal_charges__sum'] or 0,
-    }
-
-    # Prepared by & approved by (example)
-    prepared_by = request.user.username if request.user.is_authenticated else "__________________"
-    approved_by = ""  # Replace with actual approver if needed
+    totals = expenses.aggregate(
+        deposited=Sum('amount_deposited') or 0,
+        withdrawn=Sum('amount_withdrawn') or 0,
+        withdrawal_charges=Sum('withdrawal_charges') or 0
+    )
+    
+    last_balance = expenses.last().running_balance if expenses.exists() else 0
 
     context = {
         'expenses': expenses,
         'totals': totals,
-        'prepared_by': prepared_by,
-        'approved_by': approved_by,
-        'today': today,
+        'last_balance': last_balance,
+        'prepared_by': request.user.get_full_name() or request.user.username,
+        'approved_by': None,
         'day': day,
         'start_date': start_date,
         'end_date': end_date,
     }
     return render(request, 'cashflow/pettycash_summary.html', context)
-
-
-
 
  
  
@@ -529,7 +546,6 @@ def print_all_approved(request):
         'expenses': approved_expenses,
     })
 
-
 from django.shortcuts import render
 from .models import Expense
 from django.contrib.auth.decorators import login_required
@@ -542,6 +558,37 @@ def print_selected_expenses(request):
     else:
         expenses = []
 
-    return render(request, "cashflow/print_selected_expenses.html", {
+    return render(request, "cashflow/print_expense.html", {
         "expenses": expenses
     })
+
+
+@login_required
+def select_print_approved(request):
+    approved_expenses = Expense.objects.filter(status__iexact="Approved")
+
+    if request.method == "POST":
+        selected_ids = request.POST.getlist("selected_expenses")
+        expenses = approved_expenses.filter(id__in=selected_ids)
+    else:
+        expenses = approved_expenses
+
+    return render(request, "cashflow/select_print_approved.html", {
+        "expenses": expenses
+    })
+
+
+
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import Expense
+
+def delete_selected_expenses(request):
+    if request.method == "POST":
+        selected_ids = request.POST.getlist("selected_expenses")
+        if selected_ids:
+            Expense.objects.filter(id__in=selected_ids).delete()
+            messages.success(request, f"{len(selected_ids)} expense(s) deleted successfully.")
+        else:
+            messages.warning(request, "No expenses selected.")
+    return redirect("admin_dashboard")  # redirect back to your dashboard

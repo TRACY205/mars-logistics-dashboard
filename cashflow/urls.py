@@ -12,12 +12,9 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("dashboard/admin/", views.admin_dashboard, name="admin_dashboard"),
     path("dashboard/user/", views.user_dashboard, name="user_dashboard"),
+
     # -------------------- Expense Management --------------------
-    path(
-        "dashboard/add-expense/",
-        views.add_expense,
-        name="add_expense_user"
-    ),
+    path("dashboard/add-expense/", views.add_expense, name="add_expense_user"),
     path(
         "dashboard/admin/add-expense/",
         lambda request: views.add_expense(request, user_type="admin"),
@@ -27,11 +24,7 @@ urlpatterns = [
     path("expenses/", views.expenses_list, name="expenses_list"),
 
     # -------------------- Expense Actions --------------------
-    path(
-        "expenses/<int:expense_id>/<str:action>/",
-        views.update_expense_status,
-        name="update_expense_status"
-    ),
+    path("expenses/<int:expense_id>/<str:action>/", views.update_expense_status, name="update_expense_status"),
     path("expense/<int:expense_id>/edit/", views.edit_expense, name="edit_expense"),
     path("expense/print/<int:expense_id>/", views.print_expense, name="print_expense"),
 
@@ -40,13 +33,12 @@ urlpatterns = [
     path("pettycash/summary/", views.pettycash_summary, name="pettycash_summary"),
     path("pettycash/daily/", views.pettycash_summary, name="daily_expense_report"),
 
-    # -------------------- Print All Approved --------------------
+    # -------------------- Printing --------------------
     path("expenses/print-all-approved/", views.print_all_approved, name="print_all_approved"),
-        path(
-        "expenses/print-selected/",
-        views.print_selected_expenses,
-        name="print_selected_expenses"
-    ),
+    path("select-print/", views.select_print_approved, name="select_print_approved"),
+    path("print-selected/", views.print_selected_expenses, name="print_selected_expenses"),
+    path("expenses/delete-selected/", views.delete_selected_expenses, name="delete_selected_expenses"),
+
 ]
 
 
